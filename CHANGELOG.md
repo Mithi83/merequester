@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- /
+
+## [1.1.8] - 2024-10-05
 
 - added Japanese translations ([#32](https://github.com/AlmostReliable/merequester/pull/32))
 - added dummy host interface for terminal implementations ([#31](https://github.com/AlmostReliable/merequester/pull/31))
@@ -27,4 +30,5 @@ All notable changes to this project will be documented in this file.
 - scroll bar is always visible
 
 <!-- Versions -->
+[1.1.8]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.1.8
 [1.1.7]: https://github.com/AlmostReliable/merequester/releases/tag/v1.20.1-neoforge-1.1.7
