@@ -32,7 +32,7 @@ import java.util.Map;
 public class RequesterTerminalMenu extends AbstractRequesterMenu {
 
     public static final MenuType<RequesterTerminalMenu> TYPE = MenuTypeBuilder
-        .create(RequesterTerminalMenu::new, RequesterTerminalPart.class)
+        .create(RequesterTerminalMenu::new, RequesterTerminalHost.class)
         .build(Utils.getRL(MERequester.TERMINAL_ID));
 
     private final Long2ObjectOpenHashMap<RequestTracker> byId = new Long2ObjectOpenHashMap<>();

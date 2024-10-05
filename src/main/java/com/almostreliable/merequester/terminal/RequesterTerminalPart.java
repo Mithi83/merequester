@@ -19,7 +19,7 @@ import appeng.parts.reporting.PatternAccessTerminalPart;
 /**
  * yoinked from {@link PatternAccessTerminalPart}
  */
-public class RequesterTerminalPart extends AbstractDisplayPart {
+public class RequesterTerminalPart extends AbstractDisplayPart implements RequesterTerminalHost {
 
     @PartModels
     private static final ResourceLocation MODEL_OFF = Utils.getRL(String.format("part/%s_off", MERequester.TERMINAL_ID));
