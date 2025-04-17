@@ -24,12 +24,12 @@ neoForge {
 }
 
 repositories {
-    maven("https://modmaven.dev")
+    mavenCentral()
     mavenLocal()
 }
 
 dependencies {
-    implementation("appeng:appliedenergistics2:${almostgradle.getProperty("aeVersion")}")
+    implementation("org.appliedenergistics:appliedenergistics2:${almostgradle.getProperty("aeVersion")}")
 }
 
 tasks.withType<Jar> {

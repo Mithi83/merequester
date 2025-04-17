@@ -59,7 +59,7 @@ public class RequesterTerminalMenu extends AbstractRequesterMenu {
     }
 
     @Override
-    protected ItemStack transferStackToMenu(ItemStack stack) {
+    protected int transferStackToMenu(ItemStack stack) {
         // sort the requesters like in the terminal to refer to the same slots
         var requesters = byRequester.keySet().stream().sorted(Comparator.comparingLong(RequesterBlockEntity::getSortValue)).toList();
 
@@ -68,9 +68,10 @@ public class RequesterTerminalMenu extends AbstractRequesterMenu {
             var targetSlot = requester.getRequestManager().firstAvailableIndex();
             if (targetSlot == -1) continue;
             byRequester.get(requester).getServer().insertItem(targetSlot, stack, false);
-            return stack;
+            break;
         }
-        return stack;
+
+        return 0;
     }
 
     @Override

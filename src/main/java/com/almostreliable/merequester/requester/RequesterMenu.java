@@ -42,13 +42,13 @@ public final class RequesterMenu extends AbstractRequesterMenu {
     }
 
     @Override
-    protected ItemStack transferStackToMenu(ItemStack stack) {
+    protected int transferStackToMenu(ItemStack stack) {
         assert requestTracker != null;
         var firstAvailable = requestTracker.getServer().firstAvailableIndex();
         if (firstAvailable != -1) {
             requestTracker.getServer().insertItem(firstAvailable, stack, false);
         }
-        return stack;
+        return 0;
     }
 
     @Override
