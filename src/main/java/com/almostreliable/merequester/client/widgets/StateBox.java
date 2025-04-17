@@ -1,10 +1,10 @@
 package com.almostreliable.merequester.client.widgets;
 
+import com.almostreliable.merequester.Utils;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
-
-import com.almostreliable.merequester.Utils;
 
 import appeng.client.gui.style.Blitter;
 import appeng.client.gui.style.ScreenStyle;

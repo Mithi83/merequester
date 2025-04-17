@@ -1,11 +1,11 @@
 package com.almostreliable.merequester.terminal;
 
+import com.almostreliable.merequester.MERequester;
+import com.almostreliable.merequester.Utils;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-
-import com.almostreliable.merequester.MERequester;
-import com.almostreliable.merequester.Utils;
 
 import appeng.api.parts.IPartItem;
 import appeng.api.parts.IPartModel;

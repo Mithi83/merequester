@@ -1,5 +1,13 @@
 package com.almostreliable.merequester.client.abstraction;
 
+import com.almostreliable.merequester.MERequester;
+import com.almostreliable.merequester.Utils;
+import com.almostreliable.merequester.client.RequestSlot;
+import com.almostreliable.merequester.client.widgets.RequestWidget;
+import com.almostreliable.merequester.mixin.accessors.WidgetContainerMixin;
+import com.almostreliable.merequester.requester.Request;
+import com.almostreliable.merequester.requester.abstraction.AbstractRequesterMenu;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.renderer.Rect2i;
@@ -10,14 +18,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-
-import com.almostreliable.merequester.MERequester;
-import com.almostreliable.merequester.Utils;
-import com.almostreliable.merequester.client.RequestSlot;
-import com.almostreliable.merequester.client.widgets.RequestWidget;
-import com.almostreliable.merequester.mixin.accessors.WidgetContainerMixin;
-import com.almostreliable.merequester.requester.Request;
-import com.almostreliable.merequester.requester.abstraction.AbstractRequesterMenu;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import appeng.api.behaviors.ContainerItemStrategies;
 import appeng.api.behaviors.EmptyingAction;
@@ -32,7 +33,6 @@ import appeng.core.localization.Tooltips;
 import appeng.core.network.serverbound.InventoryActionPacket;
 import appeng.helpers.InventoryAction;
 import com.mojang.blaze3d.platform.InputConstants;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.Nullable;

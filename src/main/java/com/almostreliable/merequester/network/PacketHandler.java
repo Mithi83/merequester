@@ -1,7 +1,6 @@
 package com.almostreliable.merequester.network;
 
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;

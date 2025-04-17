@@ -1,12 +1,12 @@
 package com.almostreliable.merequester.client.widgets;
 
+import com.almostreliable.merequester.Utils;
+import com.almostreliable.merequester.mixin.accessors.EditBoxMixin;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import com.almostreliable.merequester.Utils;
-import com.almostreliable.merequester.mixin.accessors.EditBoxMixin;
 
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEKey;

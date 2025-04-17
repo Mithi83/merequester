@@ -1,5 +1,14 @@
 package com.almostreliable.merequester.requester;
 
+import com.almostreliable.merequester.MERequester;
+import com.almostreliable.merequester.Utils;
+import com.almostreliable.merequester.core.Config;
+import com.almostreliable.merequester.core.Registration;
+import com.almostreliable.merequester.requester.abstraction.RequestHost;
+import com.almostreliable.merequester.requester.status.LinkState;
+import com.almostreliable.merequester.requester.status.RequestStatus;
+import com.almostreliable.merequester.requester.status.StatusState;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -11,15 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import com.almostreliable.merequester.MERequester;
-import com.almostreliable.merequester.Utils;
-import com.almostreliable.merequester.core.Config;
-import com.almostreliable.merequester.core.Registration;
-import com.almostreliable.merequester.requester.abstraction.RequestHost;
-import com.almostreliable.merequester.requester.status.LinkState;
-import com.almostreliable.merequester.requester.status.RequestStatus;
-import com.almostreliable.merequester.requester.status.StatusState;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.GridFlags;
@@ -89,7 +89,9 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
         super.loadTag(tag, registries);
         if (tag.contains(REQUESTS_ID)) requestManager.deserializeNBT(registries, tag.getCompound(REQUESTS_ID));
         if (tag.contains(REQUEST_STATUS_ID)) deserializeStatus(tag.getCompound(REQUEST_STATUS_ID));
-        if (tag.contains(STORAGE_MANAGER_ID)) storageManager.deserializeNBT(registries, tag.getCompound(STORAGE_MANAGER_ID));
+        if (tag.contains(STORAGE_MANAGER_ID)) {
+            storageManager.deserializeNBT(registries, tag.getCompound(STORAGE_MANAGER_ID));
+        }
     }
 
     @Override

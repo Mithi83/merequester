@@ -1,22 +1,22 @@
 package com.almostreliable.merequester;
 
-import net.minecraft.client.color.item.ItemColor;
-import net.minecraft.util.FastColor;
-
 import com.almostreliable.merequester.client.RequesterScreen;
 import com.almostreliable.merequester.client.RequesterTerminalScreen;
 import com.almostreliable.merequester.core.Registration;
 import com.almostreliable.merequester.requester.RequesterMenu;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 
-import appeng.api.util.AEColor;
-import appeng.client.render.StaticItemColor;
-import appeng.init.client.InitScreens;
+import net.minecraft.client.color.item.ItemColor;
+import net.minecraft.util.FastColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+
+import appeng.api.util.AEColor;
+import appeng.client.render.StaticItemColor;
+import appeng.init.client.InitScreens;
 
 @Mod(value = ModConstants.MOD_ID, dist = Dist.CLIENT)
 public final class MERequesterClient {

@@ -1,15 +1,5 @@
 package com.almostreliable.merequester.core;
 
-import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-
 import com.almostreliable.merequester.ModConstants;
 import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.requester.Request;
@@ -19,12 +9,15 @@ import com.almostreliable.merequester.requester.RequesterMenu;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 import com.almostreliable.merequester.terminal.RequesterTerminalPart;
 
-import appeng.api.AECapabilities;
-import appeng.api.parts.PartModels;
-import appeng.block.AEBaseBlock;
-import appeng.blockentity.AEBaseBlockEntity;
-import appeng.items.parts.PartItem;
-import appeng.items.parts.PartModelsHelper;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -33,6 +26,13 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegisterEvent;
+
+import appeng.api.AECapabilities;
+import appeng.api.parts.PartModels;
+import appeng.block.AEBaseBlock;
+import appeng.blockentity.AEBaseBlockEntity;
+import appeng.items.parts.PartItem;
+import appeng.items.parts.PartModelsHelper;
 
 import java.util.List;
 
@@ -64,15 +64,17 @@ public final class Registration {
         new Item.Properties()
     );
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RequesterBlockEntity>> REQUESTER_ENTITY
-        = BLOCK_ENTITIES.register(REQUESTER_ID, () -> {
-        // noinspection DataFlowIssue
-        var type = BlockEntityType.Builder
-            .of(RequesterBlockEntity::new, REQUESTER_BLOCK.get())
-            .build(null);
-        AEBaseBlockEntity.registerBlockEntityItem(type, REQUESTER_BLOCK.asItem());
-        REQUESTER_BLOCK.get().setBlockEntity(RequesterBlockEntity.class, type, null, null);
-        return type;
-    });
+        = BLOCK_ENTITIES.register(
+        REQUESTER_ID, () -> {
+            // noinspection DataFlowIssue
+            var type = BlockEntityType.Builder
+                .of(RequesterBlockEntity::new, REQUESTER_BLOCK.get())
+                .build(null);
+            AEBaseBlockEntity.registerBlockEntityItem(type, REQUESTER_BLOCK.asItem());
+            REQUESTER_BLOCK.get().setBlockEntity(RequesterBlockEntity.class, type, null, null);
+            return type;
+        }
+    );
     public static final DeferredHolder<MenuType<?>, MenuType<RequesterMenu>> REQUESTER_MENU = MENUS.register(
         REQUESTER_ID,
         () -> RequesterMenu.TYPE

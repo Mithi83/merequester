@@ -24,9 +24,12 @@
       </option>
       <option name="IMPORT_LAYOUT_TABLE">
         <value>
-          <package name="net.minecraft" withSubpackages="true" static="false" />
+          <package name="" withSubpackages="true" static="false" module="true" />
           <emptyLine />
           <package name="com.almostreliable" withSubpackages="true" static="false" />
+          <emptyLine />
+          <package name="net.minecraft" withSubpackages="true" static="false" />
+          <package name="net.neoforged" withSubpackages="true" static="false" />
           <emptyLine />
           <package name="" withSubpackages="true" static="false" />
           <emptyLine />

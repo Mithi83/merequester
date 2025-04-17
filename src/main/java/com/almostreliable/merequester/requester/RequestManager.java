@@ -1,12 +1,13 @@
 package com.almostreliable.merequester.requester;
 
+import com.almostreliable.merequester.core.Config;
+import com.almostreliable.merequester.requester.abstraction.RequestHost;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-
-import com.almostreliable.merequester.core.Config;
-import com.almostreliable.merequester.requester.abstraction.RequestHost;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import appeng.api.behaviors.GenericInternalInventory;
 import appeng.api.config.Actionable;
@@ -18,7 +19,6 @@ import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
 import appeng.helpers.externalstorage.GenericStackInv;
 import com.google.common.primitives.Ints;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import org.jetbrains.annotations.Nullable;
 

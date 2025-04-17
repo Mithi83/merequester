@@ -1,18 +1,21 @@
 package com.almostreliable.merequester.network;
 
+import com.almostreliable.merequester.Utils;
+import com.almostreliable.merequester.client.abstraction.AbstractRequesterScreen;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-
-import com.almostreliable.merequester.Utils;
-import com.almostreliable.merequester.client.abstraction.AbstractRequesterScreen;
-
-import io.netty.buffer.ByteBuf;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public record RequesterSyncPacket(boolean clearData, long requesterId, CompoundTag data) implements CustomPacketPayload {
+import io.netty.buffer.ByteBuf;
+
+public record RequesterSyncPacket(
+    boolean clearData, long requesterId,
+    CompoundTag data
+) implements CustomPacketPayload {
 
     static final Type<RequesterSyncPacket> TYPE = new Type<>(Utils.getRL("requester_sync"));
 

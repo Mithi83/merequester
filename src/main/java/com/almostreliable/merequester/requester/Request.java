@@ -1,22 +1,22 @@
 package com.almostreliable.merequester.requester;
 
+import com.almostreliable.merequester.requester.abstraction.RequestHost;
+import com.almostreliable.merequester.requester.status.RequestStatus;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
-
-import com.almostreliable.merequester.requester.abstraction.RequestHost;
-import com.almostreliable.merequester.requester.status.RequestStatus;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import org.jetbrains.annotations.Nullable;
 

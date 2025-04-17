@@ -1,12 +1,11 @@
 package com.almostreliable.merequester.network;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-
 import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.requester.abstraction.AbstractRequesterMenu;
 
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record RequestUpdatePacket(
