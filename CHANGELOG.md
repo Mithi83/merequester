@@ -3,7 +3,15 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
-- /
+
+- updated minimum Applied Energistics 2 version to 19.2.7
+- fixed shift clicking ghost items into the Requester and Requester Terminal
+
+### Known Bugs
+
+- scroll bar renders little sections on its background
+- scroll bar is always visible
+- toggle request option sometimes not working
 
 ## [1.1.8] - 2024-10-05
 
