@@ -51,7 +51,10 @@ public final class Registration {
         Registries.MENU,
         ModConstants.MOD_ID
     );
-    public static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(ModConstants.MOD_ID);
+    public static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(
+        Registries.DATA_COMPONENT_TYPE,
+        ModConstants.MOD_ID
+    );
 
     public static final DeferredBlock<RequesterBlock> REQUESTER_BLOCK = BLOCKS.registerBlock(
         REQUESTER_ID,
