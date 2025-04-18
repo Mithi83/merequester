@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- /
+
+## [1.2.0] - 2025-04-18
 
 - updated minimum Applied Energistics 2 version to 19.2.7
 - fixed shift clicking ghost items into the Requester and Requester Terminal
@@ -39,5 +42,6 @@ All notable changes to this project will be documented in this file.
 - scroll bar is always visible
 
 <!-- Versions -->
+[1.2.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.2.0
 [1.1.8]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.1.8
 [1.1.7]: https://github.com/AlmostReliable/merequester/releases/tag/v1.20.1-neoforge-1.1.7
