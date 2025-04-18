@@ -11,14 +11,14 @@ neoForge {
     runs {
         configureEach {
             systemProperties = mapOf(
-                "guideDev.ae2guide.sources" to file("guidebook").absolutePath,
-                "guideDev.ae2guide.sourcesNamespace" to almostgradle.modId
+                "guideme.ae2.guide.sources" to file("guidebook").absolutePath,
+                "guideme.ae2.guide.sourcesNamespace" to almostgradle.modId,
             )
         }
 
         create("guide") {
             client()
-            systemProperty("guideDev.ae2guide.startupPage", "${almostgradle.modId}:${almostgradle.modId}.md")
+            systemProperty("guideme.showOnStartup", "ae2:guide!${almostgradle.modId}:${almostgradle.modId}.md")
         }
     }
 }

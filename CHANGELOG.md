@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - updated minimum Applied Energistics 2 version to 19.2.7
 - fixed shift clicking ghost items into the Requester and Requester Terminal
+- fixed guide book not properly working with standalone GuideME mod
 
 ### Known Bugs
 
