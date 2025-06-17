@@ -9,6 +9,12 @@ import com.almostreliable.merequester.requester.RequesterMenu;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 import com.almostreliable.merequester.terminal.RequesterTerminalPart;
 
+import appeng.api.implementations.items.IAEItemPowerStorage;
+import appeng.items.tools.powered.powersink.PoweredItemCapabilities;
+import de.mari_023.ae2wtlib.api.gui.Icon;
+import de.mari_023.ae2wtlib.api.registration.AddTerminalEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -18,8 +24,32 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+
+import com.almostreliable.merequester.ModConstants;
+import com.almostreliable.merequester.Utils;
+import com.almostreliable.merequester.requester.Request;
+import com.almostreliable.merequester.requester.RequesterBlock;
+import com.almostreliable.merequester.requester.RequesterBlockEntity;
+import com.almostreliable.merequester.requester.RequesterMenu;
+import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
+import com.almostreliable.merequester.terminal.RequesterTerminalPart;
+import com.almostreliable.merequester.wireless.ItemWR;
+import com.almostreliable.merequester.wireless.WRMenu;
+import com.almostreliable.merequester.wireless.WRMenuHost;
+import com.almostreliable.merequester.wireless.WRScreen;
+
+import appeng.api.AECapabilities;
+import appeng.api.features.GridLinkables;
+import appeng.api.parts.PartModels;
+import appeng.block.AEBaseBlock;
+import appeng.blockentity.AEBaseBlockEntity;
+import appeng.init.client.InitScreens;
+import appeng.items.parts.PartItem;
+import appeng.items.parts.PartModelsHelper;
+import appeng.items.tools.powered.WirelessTerminalItem;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -38,6 +68,7 @@ import java.util.List;
 
 import static com.almostreliable.merequester.MERequester.REQUESTER_ID;
 import static com.almostreliable.merequester.MERequester.TERMINAL_ID;
+import static com.almostreliable.merequester.MERequester.WIRELESS_TERMINAL_ID;
 
 public final class Registration {
 
@@ -100,6 +131,17 @@ public final class Registration {
         () -> RequesterTerminalMenu.TYPE
     );
 
+    public static final DeferredItem<ItemWR> WIRELESS_REQUESTER_TERMINAL = ITEMS.registerItem(
+        WIRELESS_TERMINAL_ID,
+        properties -> {
+            return new ItemWR();
+        }
+    );
+    public static final DeferredHolder<MenuType<?>, MenuType<WRMenu>> WIRELESS_REQUESTER_TERMINAL_MENU = MENUS.register(
+        WIRELESS_TERMINAL_ID,
+        () -> WRMenu.TYPE
+    );
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<Request.Component>>> EXPORTED_REQUESTS =
         COMPONENTS.register(
             "exported_requests",
@@ -115,12 +157,19 @@ public final class Registration {
         modEventBus.addListener(Registration::registerContents);
         modEventBus.addListener(Registration::registerCapabilities);
         modEventBus.addListener(Tab::initContents);
+        modEventBus.addListener(Registration::registerScreens);
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         BLOCK_ENTITIES.register(modEventBus);
         MENUS.register(modEventBus);
         COMPONENTS.register(modEventBus);
+
+        AddTerminalEvent.register((event -> {
+            event.builder("requester", WRMenuHost::new, WRMenu.TYPE, WIRELESS_REQUESTER_TERMINAL.get(),
+                    Icon.PATTERN_ACCESS)
+                .addTerminal();
+        }));
     }
 
     private static void registerContents(RegisterEvent event) {
@@ -135,6 +184,12 @@ public final class Registration {
             REQUESTER_ENTITY.get(),
             (requester, ctx) -> requester
         );
+
+        GridLinkables.register(WIRELESS_REQUESTER_TERMINAL, WirelessTerminalItem.LINKABLE_HANDLER);
+    }
+
+    private static void registerScreens(RegisterMenuScreensEvent event) {
+        InitScreens.register(event, WRMenu.TYPE, WRScreen::new, "/screens/wireless_requester_terminal.json");
     }
 
     public static final class Tab {
@@ -152,6 +207,7 @@ public final class Registration {
             if (event.getTabKey() == TAB_KEY) {
                 event.accept(REQUESTER_BLOCK);
                 event.accept(REQUESTER_TERMINAL);
+                event.accept(WIRELESS_REQUESTER_TERMINAL);
             }
         }
 

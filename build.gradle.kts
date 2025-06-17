@@ -25,11 +25,13 @@ neoForge {
 
 repositories {
     mavenCentral()
+    maven("https://modmaven.dev")
     mavenLocal()
 }
 
 dependencies {
     implementation("org.appliedenergistics:appliedenergistics2:${almostgradle.getProperty("aeVersion")}")
+    implementation("de.mari_023:ae2wtlib_api:${almostgradle.getProperty("ae2wtlibVersion")}")
 }
 
 tasks.withType<Jar> {

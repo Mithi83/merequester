@@ -2,6 +2,7 @@
   "itemGroup.merequester.tab": "ME Requester",
 
   "item.merequester.requester_terminal": "ME Requester Terminal",
+  "item.merequester.wireless_requester_terminal": "Wireless Requester Terminal",
   "block.merequester.requester": "ME Requester",
 
   "gui.merequester.requester_terminal": "ME Requ. Terminal",

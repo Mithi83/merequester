@@ -51,8 +51,8 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     protected static final int GUI_WIDTH = 195;
     private static final int GUI_PADDING_X = 8;
     private static final int GUI_PADDING_Y = 6;
-    protected static final int GUI_HEADER_HEIGHT = 19;
-    protected static final int GUI_FOOTER_HEIGHT = 100;
+    protected static final int GUI_HEADER_HEIGHT = 20;
+    protected static final int GUI_FOOTER_HEIGHT = 99;
 
     private static final int TEXT_MARGIN_X = 2;
     private static final int TEXT_MAX_WIDTH = 156;
@@ -62,7 +62,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
 
     private static final Rect2i HEADER_BBOX = new Rect2i(0, 0, GUI_WIDTH, GUI_HEADER_HEIGHT);
 
-    private static final Rect2i TEXT_BBOX = new Rect2i(0, 19, GUI_WIDTH, ROW_HEIGHT);
+    private static final Rect2i TEXT_BBOX = new Rect2i(0, 60, GUI_WIDTH, ROW_HEIGHT);
     private static final Rect2i REQUEST_BBOX = new Rect2i(0, 38, GUI_WIDTH, ROW_HEIGHT);
 
     private final ResourceLocation texture;
@@ -134,14 +134,14 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     @Override
     @MustBeInvokedByOverriders
     protected void init() {
-        imageHeight = GUI_HEADER_HEIGHT + GUI_FOOTER_HEIGHT + rowAmount * ROW_HEIGHT;
+        imageHeight = GUI_HEADER_HEIGHT + GUI_FOOTER_HEIGHT + rowAmount * ROW_HEIGHT + 1;
 
         requestWidgets.forEach(w -> w.preInit(Utils.cast(widgets, WidgetContainerMixin.class).merequester$getWidgets()));
         super.init();
         // clear old widgets because init() is recalled when the terminal resizes
         requestWidgets.clear();
         for (var i = 0; i < rowAmount; i++) {
-            var requestWidget = new RequestWidget(this, i, GUI_PADDING_X, (i + 1) * ROW_HEIGHT, style);
+            var requestWidget = new RequestWidget(this, i, GUI_PADDING_X, (i + 1) * ROW_HEIGHT + 1, style);
             requestWidget.postInit();
             requestWidgets.add(requestWidget);
         }
@@ -306,7 +306,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
             (RequesterReference) request.getRequesterReference(),
             request.getIndex(),
             ROW_HEIGHT + GUI_PADDING_X,
-            (index + 1) * ROW_HEIGHT + 1
+            (index + 1) * ROW_HEIGHT + 2
         );
         slot.setHideAmount(true);
         slot.setLocked(request.getClientStatus().locksRequest());

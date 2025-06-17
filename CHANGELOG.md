@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
-- /
+- added ae2wtlib support and a wireless requester terminal
 
 ## [1.2.0] - 2025-04-18
 
