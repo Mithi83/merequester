@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.function.BiConsumer;
 
 public class WRMenuHost extends WTMenuHost implements ITerminalHost {
+public class WRMenuHost extends WTMenuHost implements ITerminalHost, RequesterTerminalHost {
 
     public WRMenuHost(ItemWT item, Player player, ItemMenuHostLocator locator, BiConsumer<Player, ISubMenu> returnToMainMenu) {
         super(item, player, locator, returnToMainMenu);
