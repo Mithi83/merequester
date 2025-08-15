@@ -40,4 +40,11 @@ private final ScrollingUpgradesPanel upgradesPanel;
 
     @Override
     public void storeState() {}
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int keyPressed) {
+        if (!super.keyPressed(keyCode, scanCode, keyPressed))
+            return checkForTerminalKeys(keyCode, scanCode);
+        return true;
+    }
 }
