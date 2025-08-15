@@ -15,16 +15,22 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 public class WRScreen extends RequesterTerminalScreen<WRMenu> implements IUniversalTerminalCapable {
+private final ScrollingUpgradesPanel upgradesPanel;
 
     public WRScreen(WRMenu menu, Inventory playerInventory, Component name, ScreenStyle style) {
         super(menu, playerInventory, name, style);
         if (getMenu().isWUT())
             addToLeftToolbar(cycleTerminalButton());
 
-        widgets.add("upgrades", new UpgradesPanel(getMenu().getSlots(SlotSemantics.UPGRADE), getMenu().getHost()));
+        upgradesPanel = addUpgradePanel(widgets, getMenu());
         if (getMenu().getToolbox().isPresent())
             widgets.add("toolbox", new ToolboxPanel(style, getMenu().getToolbox().getName()));
-        //widgets.add("singularityBackground", new BackgroundPanel(style.getImage("singularityBackground")));
+    }
+
+@Override
+    public void init() {
+        super.init();
+        upgradesPanel.setMaxRows(Math.max(2, rowAmount));
     }
 
     @Override
