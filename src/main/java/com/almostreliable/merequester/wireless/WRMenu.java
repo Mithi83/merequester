@@ -11,7 +11,9 @@ import com.almostreliable.merequester.MERequester;
 import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 
+import de.mari_023.ae2wtlib.api.gui.AE2wtlibSlotSemantics;
 import de.mari_023.ae2wtlib.api.terminal.ItemWUT;
+import de.mari_023.ae2wtlib.api.terminal.WTMenuHost;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
@@ -36,6 +38,7 @@ public class WRMenu extends RequesterTerminalMenu {
             slot.setNotDraggable();
             addSlot(slot, SlotSemantics.UPGRADE);
         }
+        addSlot(new RestrictedInputSlot(RestrictedInputSlot.PlacableItemType.QE_SINGULARITY, wrMenuHost.getSubInventory(WTMenuHost.INV_SINGULARITY), 0), AE2wtlibSlotSemantics.SINGULARITY);
     }
 
     @Override
