@@ -8,6 +8,7 @@ import appeng.menu.SlotSemantics;
 
 import com.almostreliable.merequester.client.RequesterTerminalScreen;
 
+import de.mari_023.ae2wtlib.api.gui.ScrollingUpgradesPanel;
 import de.mari_023.ae2wtlib.api.terminal.IUniversalTerminalCapable;
 import de.mari_023.ae2wtlib.api.terminal.WTMenuHost;
 
@@ -15,7 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 public class WRScreen extends RequesterTerminalScreen<WRMenu> implements IUniversalTerminalCapable {
-private final ScrollingUpgradesPanel upgradesPanel;
+    private final ScrollingUpgradesPanel upgradesPanel;
 
     public WRScreen(WRMenu menu, Inventory playerInventory, Component name, ScreenStyle style) {
         super(menu, playerInventory, name, style);
