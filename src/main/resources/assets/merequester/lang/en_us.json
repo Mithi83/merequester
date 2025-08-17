@@ -5,6 +5,8 @@
   "item.merequester.wireless_requester_terminal": "Wireless Requester Terminal",
   "block.merequester.requester": "ME Requester",
 
+  "key.ae2.wireless_requester_terminal": "Open Wireless Requester Terminal",
+
   "gui.merequester.requester_terminal": "ME Requ. Terminal",
   "gui.merequester.no_requesters": "No ME Requesters found!",
 
