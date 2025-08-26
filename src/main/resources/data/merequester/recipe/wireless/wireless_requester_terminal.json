@@ -1,6 +1,16 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2wtlib"
+    }
+  ],
   "type": "minecraft:crafting_shaped",
-  "pattern": ["a", "b", "c"],
+  "pattern": [
+    "a",
+    "b",
+    "c"
+  ],
   "key": {
     "a": {
       "item": "ae2:wireless_receiver"
