@@ -2,6 +2,7 @@
   "itemGroup.merequester.tab": "ME Anforderer",
 
   "item.merequester.requester_terminal": "ME Anforderungskonsole",
+  "item.merequester.wireless_requester_terminal": "Kabellose ME Anforderungskonsole",
   "block.merequester.requester": "ME Anforderer",
 
   "gui.merequester.requester_terminal": "ME Anforderungsk.",
