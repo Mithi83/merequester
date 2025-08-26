@@ -44,6 +44,7 @@ jobs:
       modrinth_id: "E6BFl96N"
       dependencies: |
         ae2(required){curseforge:223794}{modrinth:XxWD5pD3}
+        ae2wtlib(optional){curseforge:459929}{modrinth:pNabrMMw}
       target_version: ${{ github.event.inputs.target_version }}
       update_type: ${{ github.event.inputs.update_type }}
       release_type: ${{ github.event.inputs.release_type }}
