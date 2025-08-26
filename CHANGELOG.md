@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- /
+
+## [1.3.0] - 2025-08-26
 
 - added ae2wtlib integration ([Mithi83](https://github.com/Mithi83),[Mari023](https://github.com/Mari023)@[#48](https://github.com/AlmostReliable/merequester/pull/48))
 - added Hungarian translation ([#46](https://github.com/AlmostReliable/merequester/pull/46))
@@ -51,6 +54,7 @@ All notable changes to this project will be documented in this file.
 - scroll bar is always visible
 
 <!-- Versions -->
+[1.3.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.3.0
 [1.2.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.2.0
 [1.1.8]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.1.8
 [1.1.7]: https://github.com/AlmostReliable/merequester/releases/tag/v1.20.1-neoforge-1.1.7
