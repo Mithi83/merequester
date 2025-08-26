@@ -43,9 +43,6 @@ class ReqWirelessTerminalScreen extends RequesterTerminalScreen<ReqWirelessTermi
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int keyPressed) {
-        if (!super.keyPressed(keyCode, scanCode, keyPressed)) {
-            return checkForTerminalKeys(keyCode, scanCode);
-        }
-        return true;
+        return super.keyPressed(keyCode, scanCode, keyPressed) || checkForTerminalKeys(keyCode, scanCode);
     }
 }
