@@ -2,6 +2,7 @@ package com.almostreliable.merequester;
 
 import com.almostreliable.merequester.client.RequesterScreen;
 import com.almostreliable.merequester.client.RequesterTerminalScreen;
+import com.almostreliable.merequester.compat.wtlib.WirelessTerminalCompat;
 import com.almostreliable.merequester.core.Registration;
 import com.almostreliable.merequester.requester.RequesterMenu;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
@@ -35,6 +36,7 @@ public final class MERequesterClient {
             RequesterTerminalScreen::new,
             String.format("/screens/%s.json", MERequester.TERMINAL_ID)
         );
+        WirelessTerminalCompat.INSTANCE.initClient(event);
     }
 
     private void registerColors(RegisterColorHandlersEvent.Item event) {

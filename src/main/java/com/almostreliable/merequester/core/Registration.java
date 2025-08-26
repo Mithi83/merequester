@@ -2,6 +2,7 @@ package com.almostreliable.merequester.core;
 
 import com.almostreliable.merequester.ModConstants;
 import com.almostreliable.merequester.Utils;
+import com.almostreliable.merequester.compat.wtlib.WirelessTerminalCompat;
 import com.almostreliable.merequester.requester.Request;
 import com.almostreliable.merequester.requester.RequesterBlock;
 import com.almostreliable.merequester.requester.RequesterBlockEntity;
@@ -17,6 +18,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -116,6 +118,8 @@ public final class Registration {
         modEventBus.addListener(Registration::registerCapabilities);
         modEventBus.addListener(Tab::initContents);
 
+        WirelessTerminalCompat.INSTANCE.init(ITEMS, MENUS);
+
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         BLOCK_ENTITIES.register(modEventBus);
@@ -135,6 +139,8 @@ public final class Registration {
             REQUESTER_ENTITY.get(),
             (requester, ctx) -> requester
         );
+
+        WirelessTerminalCompat.INSTANCE.registerCapabilities();
     }
 
     public static final class Tab {
@@ -152,6 +158,9 @@ public final class Registration {
             if (event.getTabKey() == TAB_KEY) {
                 event.accept(REQUESTER_BLOCK);
                 event.accept(REQUESTER_TERMINAL);
+                for (ItemLike item : WirelessTerminalCompat.INSTANCE.collectItems()) {
+                    event.accept(item);
+                }
             }
         }
 

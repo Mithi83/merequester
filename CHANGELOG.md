@@ -3,7 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
-- /
+
+- added ae2wtlib integration ([Mithi83](https://github.com/Mithi83),[Mari023](https://github.com/Mari023)@[#48](https://github.com/AlmostReliable/merequester/pull/48))
 
 ## [1.2.0] - 2025-04-18
 

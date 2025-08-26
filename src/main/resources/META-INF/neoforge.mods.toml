@@ -34,3 +34,10 @@ type = "REQUIRED"
 versionRange = "[${aeVersion},)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies."${modId}"]]
+modId = "ae2wtlib"
+type = "OPTIONAL"
+versionRange = "[${wtlibVersion},)"
+ordering = "AFTER"
+side = "BOTH"

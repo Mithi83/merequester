@@ -1,0 +1,13 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ae2wtlib"
+    }
+  ],
+  "type": "ae2wtlib:upgrade",
+  "terminal": {
+    "item": "merequester:wireless_requester_terminal"
+  },
+  "terminalName": "requester"
+}
