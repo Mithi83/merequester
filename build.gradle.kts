@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.appliedenergistics:appliedenergistics2:${almostgradle.getProperty("aeVersion")}")
+    api("org.appliedenergistics:appliedenergistics2:${almostgradle.getProperty("aeVersion")}")
     jarJar(localImplementation("de.mari_023:ae2wtlib_api:${almostgradle.getProperty("wtlibVersion")}") { isTransitive = false })
 }
 
