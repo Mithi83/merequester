@@ -1,6 +1,5 @@
 package com.almostreliable.merequester.compat.wtlib;
 
-import com.almostreliable.merequester.MERequester;
 import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 
@@ -21,7 +20,7 @@ public class ReqWirelessTerminalMenu extends RequesterTerminalMenu {
 
     public static final MenuType<ReqWirelessTerminalMenu> TYPE = MenuTypeBuilder
         .create(ReqWirelessTerminalMenu::new, ReqWirelessTerminalMenuHost.class)
-        .build(Utils.getRL(MERequester.WIRELESS_TERMINAL_ID));
+        .build(Utils.getRL(WirelessTerminalCompat.TERMINAL_ID));
 
     private final ReqWirelessTerminalMenuHost wrMenuHost;
     private final ToolboxMenu toolboxMenu;

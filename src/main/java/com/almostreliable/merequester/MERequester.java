@@ -17,7 +17,6 @@ public final class MERequester {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final String REQUESTER_ID = "requester";
     public static final String TERMINAL_ID = "requester_terminal";
-    public static final String WIRELESS_TERMINAL_ID = "wireless_requester_terminal";
 
     public MERequester(IEventBus modEventBus, ModContainer modContainer) {
         Registration.init(modEventBus);

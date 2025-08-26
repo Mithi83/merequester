@@ -3,11 +3,13 @@ package com.almostreliable.merequester.compat.wtlib;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import appeng.api.features.GridLinkables;
+import appeng.init.client.InitScreens;
 import de.mari_023.ae2wtlib.api.gui.Icon;
 import de.mari_023.ae2wtlib.api.registration.AddTerminalEvent;
 
@@ -15,16 +17,21 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.almostreliable.merequester.MERequester.WIRELESS_TERMINAL_ID;
-
 @SuppressWarnings({"NonConstantFieldWithUpperCaseName", "StaticVariableMayNotBeInitialized"})
 public final class WirelessTerminalCompat {
 
     public static final WirelessTerminalCompat INSTANCE = new WirelessTerminalCompat();
+    private static final String TERMINAL_ID = "wireless_requester_terminal";
 
     public void init(DeferredRegister.Items itemRegistry, DeferredRegister<MenuType<?>> menuRegistry) {
         if (isLoaded()) {
             Guard.init(itemRegistry, menuRegistry);
+        }
+    }
+
+    public void initClient(RegisterMenuScreensEvent event) {
+        if (isLoaded()) {
+            GuardClient.init(event);
         }
     }
 
@@ -49,7 +56,7 @@ public final class WirelessTerminalCompat {
     private WirelessTerminalCompat() {}
 
     @SuppressWarnings("StaticVariableUsedBeforeInitialization")
-    public static final class Guard {
+    static final class Guard {
 
         @Nullable
         static DeferredItem<ReqWirelessTerminalItem> WIRELESS_REQUESTER_TERMINAL;
@@ -59,11 +66,11 @@ public final class WirelessTerminalCompat {
         private static void init(DeferredRegister.Items itemRegistry, DeferredRegister<MenuType<?>> menuRegistry) {
 
             WIRELESS_REQUESTER_TERMINAL = itemRegistry.registerItem(
-                WIRELESS_TERMINAL_ID,
+                TERMINAL_ID,
                 properties -> new ReqWirelessTerminalItem()
             );
             WIRELESS_REQUESTER_TERMINAL_MENU = menuRegistry.register(
-                WIRELESS_TERMINAL_ID,
+                TERMINAL_ID,
                 () -> ReqWirelessTerminalMenu.TYPE
             );
 
@@ -85,5 +92,17 @@ public final class WirelessTerminalCompat {
         }
 
         private Guard() {}
+    }
+
+    private static final class GuardClient {
+
+        private static void init(RegisterMenuScreensEvent event) {
+            InitScreens.register(
+                event,
+                ReqWirelessTerminalMenu.TYPE,
+                ReqWirelessTerminalScreen::new,
+                String.format("/screens/%s.json", TERMINAL_ID)
+            );
+        }
     }
 }

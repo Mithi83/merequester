@@ -2,8 +2,6 @@ package com.almostreliable.merequester.core;
 
 import com.almostreliable.merequester.ModConstants;
 import com.almostreliable.merequester.Utils;
-import com.almostreliable.merequester.compat.wtlib.ReqWirelessTerminalMenu;
-import com.almostreliable.merequester.compat.wtlib.ReqWirelessTerminalScreen;
 import com.almostreliable.merequester.compat.wtlib.WirelessTerminalCompat;
 import com.almostreliable.merequester.requester.Request;
 import com.almostreliable.merequester.requester.RequesterBlock;
@@ -24,7 +22,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -36,7 +33,6 @@ import appeng.api.AECapabilities;
 import appeng.api.parts.PartModels;
 import appeng.block.AEBaseBlock;
 import appeng.blockentity.AEBaseBlockEntity;
-import appeng.init.client.InitScreens;
 import appeng.items.parts.PartItem;
 import appeng.items.parts.PartModelsHelper;
 
@@ -121,7 +117,6 @@ public final class Registration {
         modEventBus.addListener(Registration::registerContents);
         modEventBus.addListener(Registration::registerCapabilities);
         modEventBus.addListener(Tab::initContents);
-        modEventBus.addListener(Registration::registerScreens);
 
         WirelessTerminalCompat.INSTANCE.init(ITEMS, MENUS);
 
@@ -146,15 +141,6 @@ public final class Registration {
         );
 
         WirelessTerminalCompat.INSTANCE.registerCapabilities();
-    }
-
-    private static void registerScreens(RegisterMenuScreensEvent event) {
-        InitScreens.register(
-            event,
-            ReqWirelessTerminalMenu.TYPE,
-            ReqWirelessTerminalScreen::new,
-            "/screens/wireless_requester_terminal.json"
-        );
     }
 
     public static final class Tab {
