@@ -1,9 +1,0 @@
-@FieldsAreNonnullByDefault
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
-package com.almostreliable.merequester.wireless;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import net.minecraft.FieldsAreNonnullByDefault;
-import net.minecraft.MethodsReturnNonnullByDefault;

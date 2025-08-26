@@ -1,4 +1,11 @@
-package com.almostreliable.merequester.wireless;
+package com.almostreliable.merequester.compat.wtlib;
+
+import com.almostreliable.merequester.MERequester;
+import com.almostreliable.merequester.Utils;
+import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
+
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 
 import appeng.api.storage.ITerminalHost;
 import appeng.api.upgrades.IUpgradeInventory;
@@ -6,28 +13,20 @@ import appeng.menu.SlotSemantics;
 import appeng.menu.ToolboxMenu;
 import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.slot.RestrictedInputSlot;
-
-import com.almostreliable.merequester.MERequester;
-import com.almostreliable.merequester.Utils;
-import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
-
 import de.mari_023.ae2wtlib.api.gui.AE2wtlibSlotSemantics;
 import de.mari_023.ae2wtlib.api.terminal.ItemWUT;
 import de.mari_023.ae2wtlib.api.terminal.WTMenuHost;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.MenuType;
+public class ReqWirelessTerminalMenu extends RequesterTerminalMenu {
 
-public class WRMenu extends RequesterTerminalMenu {
-
-    public static final MenuType<WRMenu> TYPE = MenuTypeBuilder
-        .create(WRMenu::new, WRMenuHost.class)
+    public static final MenuType<ReqWirelessTerminalMenu> TYPE = MenuTypeBuilder
+        .create(ReqWirelessTerminalMenu::new, ReqWirelessTerminalMenuHost.class)
         .build(Utils.getRL(MERequester.WIRELESS_TERMINAL_ID));
 
-    private final WRMenuHost wrMenuHost;
+    private final ReqWirelessTerminalMenuHost wrMenuHost;
     private final ToolboxMenu toolboxMenu;
 
-    public WRMenu(int id, Inventory playerInventory, WRMenuHost host) {
+    public ReqWirelessTerminalMenu(int id, Inventory playerInventory, ReqWirelessTerminalMenuHost host) {
         super(TYPE, id, playerInventory, host);
         wrMenuHost = host;
         toolboxMenu = new ToolboxMenu(this);
@@ -38,7 +37,13 @@ public class WRMenu extends RequesterTerminalMenu {
             slot.setNotDraggable();
             addSlot(slot, SlotSemantics.UPGRADE);
         }
-        addSlot(new RestrictedInputSlot(RestrictedInputSlot.PlacableItemType.QE_SINGULARITY, wrMenuHost.getSubInventory(WTMenuHost.INV_SINGULARITY), 0), AE2wtlibSlotSemantics.SINGULARITY);
+        addSlot(
+            new RestrictedInputSlot(
+                RestrictedInputSlot.PlacableItemType.QE_SINGULARITY,
+                wrMenuHost.getSubInventory(WTMenuHost.INV_SINGULARITY),
+                0
+            ), AE2wtlibSlotSemantics.SINGULARITY
+        );
     }
 
     @Override
