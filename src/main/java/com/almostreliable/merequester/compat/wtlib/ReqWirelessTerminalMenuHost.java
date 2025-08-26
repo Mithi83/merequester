@@ -12,9 +12,9 @@ import de.mari_023.ae2wtlib.api.terminal.WTMenuHost;
 
 import java.util.function.BiConsumer;
 
-public class ReqWirelessTerminalMenuHost extends WTMenuHost implements ITerminalHost, RequesterTerminalHost {
+class ReqWirelessTerminalMenuHost extends WTMenuHost implements ITerminalHost, RequesterTerminalHost {
 
-    public ReqWirelessTerminalMenuHost(
+    ReqWirelessTerminalMenuHost(
         ItemWT item, Player player, ItemMenuHostLocator locator, BiConsumer<Player, ISubMenu> returnToMainMenu) {
         super(item, player, locator, returnToMainMenu);
     }

@@ -11,11 +11,11 @@ import de.mari_023.ae2wtlib.api.gui.ScrollingUpgradesPanel;
 import de.mari_023.ae2wtlib.api.terminal.IUniversalTerminalCapable;
 import de.mari_023.ae2wtlib.api.terminal.WTMenuHost;
 
-public class ReqWirelessTerminalScreen extends RequesterTerminalScreen<ReqWirelessTerminalMenu> implements IUniversalTerminalCapable {
+class ReqWirelessTerminalScreen extends RequesterTerminalScreen<ReqWirelessTerminalMenu> implements IUniversalTerminalCapable {
 
     private final ScrollingUpgradesPanel upgradesPanel;
 
-    public ReqWirelessTerminalScreen(ReqWirelessTerminalMenu menu, Inventory playerInventory, Component name, ScreenStyle style) {
+    ReqWirelessTerminalScreen(ReqWirelessTerminalMenu menu, Inventory playerInventory, Component name, ScreenStyle style) {
         super(menu, playerInventory, name, style);
         if (getMenu().isWUT()) {
             addToLeftToolbar(cycleTerminalButton());

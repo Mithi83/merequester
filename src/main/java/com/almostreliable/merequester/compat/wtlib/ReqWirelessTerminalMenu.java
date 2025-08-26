@@ -16,16 +16,16 @@ import de.mari_023.ae2wtlib.api.gui.AE2wtlibSlotSemantics;
 import de.mari_023.ae2wtlib.api.terminal.ItemWUT;
 import de.mari_023.ae2wtlib.api.terminal.WTMenuHost;
 
-public class ReqWirelessTerminalMenu extends RequesterTerminalMenu {
+final class ReqWirelessTerminalMenu extends RequesterTerminalMenu {
 
-    public static final MenuType<ReqWirelessTerminalMenu> TYPE = MenuTypeBuilder
+    static final MenuType<ReqWirelessTerminalMenu> TYPE = MenuTypeBuilder
         .create(ReqWirelessTerminalMenu::new, ReqWirelessTerminalMenuHost.class)
         .build(Utils.getRL(WirelessTerminalCompat.TERMINAL_ID));
 
     private final ReqWirelessTerminalMenuHost wrMenuHost;
     private final ToolboxMenu toolboxMenu;
 
-    public ReqWirelessTerminalMenu(int id, Inventory playerInventory, ReqWirelessTerminalMenuHost host) {
+    private ReqWirelessTerminalMenu(int id, Inventory playerInventory, ReqWirelessTerminalMenuHost host) {
         super(TYPE, id, playerInventory, host);
         wrMenuHost = host;
         toolboxMenu = new ToolboxMenu(this);
@@ -51,15 +51,15 @@ public class ReqWirelessTerminalMenu extends RequesterTerminalMenu {
         super.broadcastChanges();
     }
 
-    public boolean isWUT() {
+    boolean isWUT() {
         return wrMenuHost.getItemStack().getItem() instanceof ItemWUT;
     }
 
-    public ITerminalHost getHost() {
+    ITerminalHost getHost() {
         return wrMenuHost;
     }
 
-    public ToolboxMenu getToolbox() {
+    ToolboxMenu getToolbox() {
         return toolboxMenu;
     }
 }

@@ -21,7 +21,7 @@ import java.util.List;
 public final class WirelessTerminalCompat {
 
     public static final WirelessTerminalCompat INSTANCE = new WirelessTerminalCompat();
-    private static final String TERMINAL_ID = "wireless_requester_terminal";
+    static final String TERMINAL_ID = "wireless_requester_terminal";
 
     public void init(DeferredRegister.Items itemRegistry, DeferredRegister<MenuType<?>> menuRegistry) {
         if (isLoaded()) {
