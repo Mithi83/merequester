@@ -1,11 +1,11 @@
 package com.almostreliable.merequester.requester.status;
 
-public class MissingState extends BlockingState {
+public class CpuState extends BlockingState {
 
-    MissingState() {}
+    CpuState() {}
 
     @Override
     public RequestStatus type() {
-        return RequestStatus.MISSING;
+        return RequestStatus.CPU;
     }
 }

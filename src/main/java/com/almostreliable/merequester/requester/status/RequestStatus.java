@@ -12,7 +12,7 @@ import java.util.Locale;
 import java.util.function.IntFunction;
 
 public enum RequestStatus implements StringRepresentable {
-    IDLE, MISSING, REQUEST, PLAN, LINK, EXPORT;
+    IDLE, MISSING, CPU, REQUEST, PLAN, LINK, EXPORT;
 
     public RequestStatus translateToClient() {
         if (this == REQUEST || this == PLAN) return IDLE;

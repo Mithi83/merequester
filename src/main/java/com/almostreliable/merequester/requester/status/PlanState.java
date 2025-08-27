@@ -2,15 +2,23 @@ package com.almostreliable.merequester.requester.status;
 
 import com.almostreliable.merequester.requester.RequesterBlockEntity;
 
+import appeng.api.networking.crafting.CraftingSubmitErrorCode;
 import appeng.api.networking.crafting.ICraftingPlan;
 import appeng.api.networking.ticking.TickRateModulation;
 
-import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public final class PlanState implements StatusState {
 
+    private static final Set<CraftingSubmitErrorCode> CPU_ERROR_CODES = Set.of(
+        CraftingSubmitErrorCode.NO_CPU_FOUND,
+        CraftingSubmitErrorCode.NO_SUITABLE_CPU_FOUND,
+        CraftingSubmitErrorCode.CPU_BUSY,
+        CraftingSubmitErrorCode.CPU_OFFLINE,
+        CraftingSubmitErrorCode.CPU_TOO_SMALL
+    );
     private final Future<? extends ICraftingPlan> future;
 
     PlanState(Future<? extends ICraftingPlan> future) {
@@ -29,12 +37,18 @@ public final class PlanState implements StatusState {
             }
 
             var submitResult = host.getMainNodeGrid().getCraftingService().submitJob(plan, host, null, false, host.getActionSource());
-            if (!submitResult.successful() || submitResult.link() == null) {
+            var craftingLink = submitResult.link();
+
+            if (!submitResult.successful() || craftingLink == null) {
+                if (submitResult.errorCode() != null && CPU_ERROR_CODES.contains(submitResult.errorCode())) {
+                    return new CpuState();
+                }
+
                 return IDLE;
             }
 
             host.getStorageManager().get(index).setTotalAmount(plan.finalOutput().amount());
-            return new LinkState(Objects.requireNonNull(submitResult.link()));
+            return new LinkState(craftingLink);
         } catch (InterruptedException | ExecutionException e) {
             return IDLE;
         }

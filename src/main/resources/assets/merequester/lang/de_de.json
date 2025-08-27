@@ -26,6 +26,8 @@
   "tooltip.merequester.idle_desc": "Der Anforderer ist im Leerlauf, wenn die angeforderte Menge bereits erreicht ist, es kein Herstellungsmuster für diesen Gegenstand oder Flüssigkeit gibt oder wenn es nicht genügend Zutaten gibt, um weitere Herstellungen anzufordern.",
   "tooltip.merequester.missing": "Fehlende Zutaten",
   "tooltip.merequester.missing_desc": "Dem System fehlen Zutaten, um den angeforderten Gegenstand oder die angeforderte Flüssigkeit herzustellen. Der Prozess wird fortgesetzt, wenn die Zutaten verfügbar sind.",
+  "tooltip.merequester.cpu": "Keine CPU",
+  "tooltip.merequester.cpu_desc": "Das System kann keine passende CPU für die Herstellung finden. Der Prozess wird fortgesetzt, wenn eine passende CPU gefunden wird.",
   "tooltip.merequester.link": "Herstellung",
   "tooltip.merequester.link_desc": "Das System ist derzeit dabei, den angeforderten Gegenstand oder die angeforderte Flüssigkeit herzustellen.",
   "tooltip.merequester.export": "Export",

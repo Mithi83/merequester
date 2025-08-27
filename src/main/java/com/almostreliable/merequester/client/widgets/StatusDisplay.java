@@ -51,6 +51,7 @@ public class StatusDisplay extends AbstractWidget implements ITooltip {
         return switch (requestStatus) {
             case IDLE -> ChatFormatting.DARK_GREEN;
             case MISSING -> ChatFormatting.RED;
+            case CPU -> ChatFormatting.GOLD;
             case LINK -> ChatFormatting.YELLOW;
             case EXPORT -> ChatFormatting.DARK_PURPLE;
             default -> throw new IllegalStateException("Impossible client state: " + requestStatus);
@@ -69,6 +70,9 @@ public class StatusDisplay extends AbstractWidget implements ITooltip {
                 Component.literal(" "),
                 Utils.translate("tooltip", RequestStatus.MISSING.toString().toLowerCase()).withStyle(getStatusColor(RequestStatus.MISSING)),
                 Utils.translate("tooltip", String.format("%s_desc", RequestStatus.MISSING.toString().toLowerCase())),
+                Component.literal(" "),
+                Utils.translate("tooltip", RequestStatus.CPU.toString().toLowerCase()).withStyle(getStatusColor(RequestStatus.CPU)),
+                Utils.translate("tooltip", String.format("%s_desc", RequestStatus.CPU.toString().toLowerCase())),
                 Component.literal(" "),
                 Utils.translate("tooltip", RequestStatus.LINK.toString().toLowerCase()).withStyle(getStatusColor(RequestStatus.LINK)),
                 Utils.translate("tooltip", String.format("%s_desc", RequestStatus.LINK.toString().toLowerCase())),
