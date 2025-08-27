@@ -81,6 +81,8 @@ public class StatusDisplay extends AbstractWidget implements ITooltip {
                 Utils.translate("tooltip", String.format("%s_desc", RequestStatus.EXPORT.toString().toLowerCase()))
             ));
         } else {
+            tooltip.add(Utils.translate("tooltip", status.toString().toLowerCase()).withStyle(getStatusColor(status)));
+            tooltip.add(Component.literal(" "));
             Utils.addShiftInfoTooltip(tooltip);
         }
         return tooltip;
