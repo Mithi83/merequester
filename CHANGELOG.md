@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- /
+
+## [1.4.0] - 2025-08-27
 
 - added new status for missing CPU ([#38](https://github.com/AlmostReliable/merequester/issues/38))
 - added the energy capability to the wireless terminal to allow charging with other
@@ -63,6 +66,7 @@ All notable changes to this project will be documented in this file.
 - scroll bar is always visible
 
 <!-- Versions -->
+[1.4.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.0
 [1.3.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.3.0
 [1.2.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.2.0
 [1.1.8]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.1.8
