@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- /
+
+## [1.4.1] - 2025-08-27
 
 - fixed crash caused by early registration ([#52](https://github.com/AlmostReliable/merequester/issues/52))
 
@@ -67,6 +70,7 @@ All notable changes to this project will be documented in this file.
 - scroll bar is always visible
 
 <!-- Versions -->
+[1.4.1]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.1
 [1.4.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.0
 [1.3.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.3.0
 [1.2.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.2.0
