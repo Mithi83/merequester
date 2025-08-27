@@ -80,7 +80,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     ) {
         super(menu, playerInventory, name, style);
         this.texture = texture;
-        scrollbar = widgets.addScrollBar("scrollbar");
+        scrollbar = widgets.addScrollBar("scrollbar", Scrollbar.BIG);
         imageWidth = GUI_WIDTH;
     }
 

@@ -3,7 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
-- /
+
+- added the energy capability to the wireless terminal to allow charging with other
+  mods ([Kolja](https://github.com/ko-lja)@[#51](https://github.com/AlmostReliable/merequester/pull/51))
+- fixed scroll bar drag control using wrong texture ([#49](https://github.com/AlmostReliable/merequester/issues/49))
+
+### Known Bugs
+
+- scroll bar is always visible
 
 ## [1.3.0] - 2025-08-26
 
