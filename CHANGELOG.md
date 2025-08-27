@@ -3,7 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
-- /
+
+- fixed crash caused by early registration ([#52](https://github.com/AlmostReliable/merequester/issues/52))
 
 ## [1.4.0] - 2025-08-27
 

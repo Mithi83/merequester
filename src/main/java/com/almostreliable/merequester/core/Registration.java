@@ -10,6 +10,7 @@ import com.almostreliable.merequester.requester.RequesterMenu;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 import com.almostreliable.merequester.terminal.RequesterTerminalPart;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -114,11 +116,12 @@ public final class Registration {
     private Registration() {}
 
     public static void init(IEventBus modEventBus) {
-        modEventBus.addListener(Registration::registerContents);
+        // High priority due to AE2WTLib closes it's registration in the registry event
+        modEventBus.addListener(EventPriority.HIGH, Registration::registerContents);
         modEventBus.addListener(Registration::registerCapabilities);
         modEventBus.addListener(Tab::initContents);
 
-        WirelessTerminalCompat.INSTANCE.init(ITEMS, MENUS);
+        WirelessTerminalCompat.INSTANCE.init(MENUS);
 
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
@@ -127,9 +130,14 @@ public final class Registration {
         COMPONENTS.register(modEventBus);
     }
 
+    @SuppressWarnings("unchecked")
     private static void registerContents(RegisterEvent event) {
         if (event.getRegistryKey() == Registries.CREATIVE_MODE_TAB) {
             Tab.registerTab(event);
+        }
+
+        if (event.getRegistryKey() == Registries.ITEM) {
+            WirelessTerminalCompat.INSTANCE.registerWirelessTerminal((Registry<Item>) event.getRegistry());
         }
     }
 
