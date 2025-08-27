@@ -20,7 +20,7 @@ final class ReqWirelessTerminalMenu extends RequesterTerminalMenu {
 
     static final MenuType<ReqWirelessTerminalMenu> TYPE = MenuTypeBuilder
         .create(ReqWirelessTerminalMenu::new, ReqWirelessTerminalMenuHost.class)
-        .build(Utils.getRL(WirelessTerminalCompat.TERMINAL_ID));
+        .buildUnregistered(Utils.getRL(WirelessTerminalCompat.TERMINAL_ID));
 
     private final ReqWirelessTerminalMenuHost wrMenuHost;
     private final ToolboxMenu toolboxMenu;

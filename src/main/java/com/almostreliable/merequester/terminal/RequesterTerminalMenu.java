@@ -33,7 +33,7 @@ public class RequesterTerminalMenu extends AbstractRequesterMenu {
 
     public static final MenuType<RequesterTerminalMenu> TYPE = MenuTypeBuilder
         .create(RequesterTerminalMenu::new, RequesterTerminalHost.class)
-        .build(Utils.getRL(MERequester.TERMINAL_ID));
+        .buildUnregistered(Utils.getRL(MERequester.TERMINAL_ID));
 
     private final Long2ObjectOpenHashMap<RequestTracker> byId = new Long2ObjectOpenHashMap<>();
     private final Map<RequesterBlockEntity, RequestTracker> byRequester = new IdentityHashMap<>();

@@ -21,7 +21,7 @@ public final class RequesterMenu extends AbstractRequesterMenu {
 
     public static final MenuType<RequesterMenu> TYPE = MenuTypeBuilder
         .create(RequesterMenu::new, RequesterBlockEntity.class)
-        .build(Utils.getRL(MERequester.REQUESTER_ID));
+        .buildUnregistered(Utils.getRL(MERequester.REQUESTER_ID));
 
     @Nullable
     private RequestTracker requestTracker;
