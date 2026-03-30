@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- /
+
+## [1.4.2] - 2026-03-30
 
 - added missing Hungarian translations ([#53](https://github.com/AlmostReliable/merequester/pull/53))
 - added traditional Chinese translation ([#58](https://github.com/AlmostReliable/merequester/pull/58))
@@ -74,6 +77,7 @@ All notable changes to this project will be documented in this file.
 - scroll bar is always visible
 
 <!-- Versions -->
+[1.4.2]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.2
 [1.4.1]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.1
 [1.4.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.0
 [1.3.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.3.0
