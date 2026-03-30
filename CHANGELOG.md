@@ -3,7 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
-- /
+
+- added missing Hungarian translations ([#53](https://github.com/AlmostReliable/merequester/pull/53))
+- added traditional Chinese translation ([#58](https://github.com/AlmostReliable/merequester/pull/58))
 
 ## [1.4.1] - 2025-08-27
 
