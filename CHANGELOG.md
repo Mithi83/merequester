@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 - added missing Hungarian translations ([#53](https://github.com/AlmostReliable/merequester/pull/53))
 - added traditional Chinese translation ([#58](https://github.com/AlmostReliable/merequester/pull/58))
+- added missing data to Requester Terminal part model
+- fixed Requester Terminal not lighting up with shaders ([#54](https://github.com/AlmostReliable/merequester/issues/54))
 
 ## [1.4.1] - 2025-08-27
 
