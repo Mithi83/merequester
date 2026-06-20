@@ -3,7 +3,10 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
-- /
+
+- added Russian translation ([#60](https://github.com/AlmostReliable/merequester/pull/60))
+- added option to enter fraction digits for fluids in Requester amounts ([#41](https://github.com/AlmostReliable/merequester/issues/41), [#64](https://github.com/AlmostReliable/merequester/pull/64))
+- fixed cached resource amounts not being recomputed when Requester changes grids ([#62](https://github.com/AlmostReliable/merequester/pull/62))
 
 ## [1.4.2] - 2026-03-30
 
