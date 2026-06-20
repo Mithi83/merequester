@@ -39,6 +39,9 @@ public class StorageManager implements IStorageWatcherNode, INBTSerializable<Com
     public void updateWatcher(IStackWatcher newWatcher) {
         stackWatcher = newWatcher;
         resetWatcher();
+        for (var i = 0; i < storages.length; i++) {
+            computeKnownAmount(i);
+        }
     }
 
     @Override
