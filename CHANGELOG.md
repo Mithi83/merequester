@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- /
+
+## [1.4.3] - 2026-06-20
 
 - added Russian translation ([#60](https://github.com/AlmostReliable/merequester/pull/60))
 - added option to enter fraction digits for fluids in Requester amounts ([#41](https://github.com/AlmostReliable/merequester/issues/41), [#64](https://github.com/AlmostReliable/merequester/pull/64))
@@ -80,6 +83,7 @@ All notable changes to this project will be documented in this file.
 - scroll bar is always visible
 
 <!-- Versions -->
+[1.4.3]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.3
 [1.4.2]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.2
 [1.4.1]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.1
 [1.4.0]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.0
