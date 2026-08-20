@@ -15,7 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -219,9 +219,9 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     }
 
     @Override
-    protected void slotClicked(@Nullable Slot slot, int slotIndex, int mouseButton, ClickType clickType) {
+    protected void slotClicked(@Nullable Slot slot, int slotIndex, int mouseButton, ContainerInput containerInput) {
         if (!(slot instanceof RequestSlot requestSlot)) {
-            super.slotClicked(slot, slotIndex, mouseButton, clickType);
+            super.slotClicked(slot, slotIndex, mouseButton, containerInput);
             return;
         }
 
@@ -239,7 +239,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
         }
 
         InventoryAction action = null;
-        switch (clickType) {
+        switch (containerInput) {
             case PICKUP -> action = mouseButton == 1 ? InventoryAction.SPLIT_OR_PLACE_SINGLE : InventoryAction.PICKUP_OR_SET_DOWN;
             case QUICK_MOVE -> action = mouseButton == 1 ? InventoryAction.PICKUP_SINGLE : InventoryAction.SHIFT_CLICK;
             case CLONE -> {
