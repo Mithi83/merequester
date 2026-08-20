@@ -8,7 +8,7 @@ import com.almostreliable.merequester.requester.Request;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import appeng.client.gui.style.ScreenStyle;
 
@@ -107,7 +107,7 @@ public class RequestWidget {
         var newState = stateBox.isSelected();
         request.updateState(newState); // prevent jittery animation before server information is received
         var requesterId = ((RequesterReference) request.getRequesterReference()).getRequesterId();
-        PacketDistributor.sendToServer(new RequestUpdatePacket(requesterId, request.getIndex(), newState));
+        ClientPacketDistributor.sendToServer(new RequestUpdatePacket(requesterId, request.getIndex(), newState));
     }
 
     private void amountFieldSubmitted(@Nullable Request request, long amount) {
@@ -137,7 +137,7 @@ public class RequestWidget {
         long amount = amountField.getLongValue().orElse(0);
         long batch = batchField.getLongValue().orElse(1);
         var requesterId = ((RequesterReference) request.getRequesterReference()).getRequesterId();
-        PacketDistributor.sendToServer(new RequestUpdatePacket(requesterId, request.getIndex(), amount, batch));
+        ClientPacketDistributor.sendToServer(new RequestUpdatePacket(requesterId, request.getIndex(), amount, batch));
     }
 
     private boolean isInactive(@Nullable Request request) {

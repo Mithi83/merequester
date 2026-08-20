@@ -9,7 +9,7 @@ import com.almostreliable.merequester.network.DragAndDropPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import appeng.menu.slot.FakeSlot;
 
@@ -82,6 +82,6 @@ public class RequestSlot extends FakeSlot {
 
     @Override
     public void setFilterTo(ItemStack itemStack) {
-        PacketDistributor.sendToServer(new DragAndDropPacket(getRequesterReference().getRequesterId(), getSlot(), itemStack));
+        ClientPacketDistributor.sendToServer(new DragAndDropPacket(getRequesterReference().getRequesterId(), getSlot(), itemStack));
     }
 }
