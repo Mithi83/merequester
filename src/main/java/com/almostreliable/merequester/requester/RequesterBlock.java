@@ -45,7 +45,7 @@ public class RequesterBlock extends AEBaseEntityBlock<RequesterBlockEntity> {
         if (!level.isClientSide()) {
             MenuOpener.open(RequesterMenu.TYPE, player, MenuLocators.forBlockEntity(entity));
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
     }
 
     @Override
