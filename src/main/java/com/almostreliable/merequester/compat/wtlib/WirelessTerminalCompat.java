@@ -14,7 +14,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import appeng.api.features.GridLinkables;
-import appeng.init.client.InitScreens;
+import appeng.client.InitScreens;
 import appeng.items.tools.powered.WirelessTerminalItem;
 import appeng.items.tools.powered.powersink.PoweredItemCapabilities;
 import de.mari_023.ae2wtlib.api.gui.Icon;

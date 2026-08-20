@@ -17,7 +17,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 import appeng.api.util.AEColor;
 import appeng.client.render.StaticItemColor;
-import appeng.init.client.InitScreens;
+import appeng.client.InitScreens;
 
 @Mod(value = ModConstants.MOD_ID, dist = Dist.CLIENT)
 public final class MERequesterClient {
