@@ -9,6 +9,7 @@ import com.almostreliable.merequester.requester.Request;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 
 import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -64,11 +65,11 @@ public class RequesterTerminalScreen<T extends RequesterTerminalMenu> extends Ab
     }
 
     @Override
-    public boolean mouseClicked(double mX, double mY, int button) {
-        if (button == 1 && searchField.isMouseOver(mX, mY)) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (event.button() == 1 && searchField.isMouseOver(event.x(), event.y())) {
             searchField.setValue("");
         }
-        return super.mouseClicked(mX, mY, button);
+        return super.mouseClicked(event, doubleClick);
     }
 
     @Override
