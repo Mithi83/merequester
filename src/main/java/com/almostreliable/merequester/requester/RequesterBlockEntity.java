@@ -134,7 +134,7 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
 
     @Override
     public TickRateModulation tickingRequest(IGridNode node, int ticksSinceLastCall) {
-        if (level == null || level.isClientSide || !getMainNode().isActive()) return TickRateModulation.IDLE;
+        if (level == null || level.isClientSide() || !getMainNode().isActive()) return TickRateModulation.IDLE;
         if (handleRequests()) setChanged();
         return currentTickRate;
     }
