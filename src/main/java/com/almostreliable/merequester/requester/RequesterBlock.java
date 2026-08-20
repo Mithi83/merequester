@@ -4,7 +4,7 @@ import com.almostreliable.merequester.MERequester;
 import com.almostreliable.merequester.Utils;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -66,7 +66,7 @@ public class RequesterBlock extends AEBaseEntityBlock<RequesterBlockEntity> {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag tooltipFlag) {
-        if (Screen.hasShiftDown()) {
+        if (Minecraft.getInstance().hasShiftDown()) {
             tooltip.add(Component.literal(" "));
             tooltip.add(Utils.translate("tooltip", String.format("%s_desc", MERequester.REQUESTER_ID)).withStyle(ChatFormatting.AQUA));
         } else {

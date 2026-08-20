@@ -4,10 +4,10 @@ import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.requester.status.RequestStatus;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
@@ -63,7 +63,7 @@ public class StatusDisplay extends AbstractWidget implements ITooltip {
     public List<Component> getTooltipMessage() {
         List<Component> tooltip = new ArrayList<>();
         tooltip.add(Utils.translate("tooltip", "status"));
-        if (Screen.hasShiftDown()) {
+        if (Minecraft.getInstance().hasShiftDown()) {
             tooltip.addAll(List.of(
                 Component.literal(" "),
                 Utils.translate("tooltip", RequestStatus.IDLE.toString().toLowerCase()).withStyle(getStatusColor(RequestStatus.IDLE)),
