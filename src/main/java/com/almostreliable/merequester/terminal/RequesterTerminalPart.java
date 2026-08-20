@@ -3,7 +3,7 @@ package com.almostreliable.merequester.terminal;
 import com.almostreliable.merequester.MERequester;
 import com.almostreliable.merequester.Utils;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
@@ -22,9 +22,9 @@ import appeng.parts.reporting.PatternAccessTerminalPart;
 public class RequesterTerminalPart extends AbstractDisplayPart implements RequesterTerminalHost {
 
     @PartModels
-    private static final ResourceLocation MODEL_OFF = Utils.getRL(String.format("part/%s_off", MERequester.TERMINAL_ID));
+    private static final Identifier MODEL_OFF = Utils.getRL(String.format("part/%s_off", MERequester.TERMINAL_ID));
     @PartModels
-    private static final ResourceLocation MODEL_ON = Utils.getRL(String.format("part/%s_on", MERequester.TERMINAL_ID));
+    private static final Identifier MODEL_ON = Utils.getRL(String.format("part/%s_on", MERequester.TERMINAL_ID));
 
     private static final IPartModel MODELS_OFF = new PartModel(MODEL_BASE, MODEL_OFF, MODEL_STATUS_OFF);
     private static final IPartModel MODELS_ON = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_ON);

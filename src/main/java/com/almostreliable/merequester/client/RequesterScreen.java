@@ -9,7 +9,7 @@ import com.almostreliable.merequester.requester.RequesterMenu;
 
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -22,7 +22,7 @@ import java.util.Set;
 
 public class RequesterScreen extends AbstractRequesterScreen<RequesterMenu> {
 
-    private static final ResourceLocation TEXTURE = Utils.getRL(String.format("textures/gui/%s.png", MERequester.REQUESTER_ID));
+    private static final Identifier TEXTURE = Utils.getRL(String.format("textures/gui/%s.png", MERequester.REQUESTER_ID));
     private static final Rect2i FOOTER_BBOX = new Rect2i(0, 114, GUI_WIDTH, GUI_FOOTER_HEIGHT + 2);
     private static final int MAX_ROW_COUNT = 10;
 

@@ -13,7 +13,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
@@ -65,7 +65,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     private static final Rect2i TEXT_BBOX = new Rect2i(0, 60, GUI_WIDTH, ROW_HEIGHT);
     private static final Rect2i REQUEST_BBOX = new Rect2i(0, 38, GUI_WIDTH, ROW_HEIGHT);
 
-    private final ResourceLocation texture;
+    private final Identifier texture;
 
     protected final ArrayList<Object> lines = new ArrayList<>();
     private final Scrollbar scrollbar;
@@ -76,7 +76,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
 
     @SuppressWarnings("AssignmentToSuperclassField")
     protected AbstractRequesterScreen(
-        M menu, Inventory playerInventory, Component name, ScreenStyle style, ResourceLocation texture
+        M menu, Inventory playerInventory, Component name, ScreenStyle style, Identifier texture
     ) {
         super(menu, playerInventory, name, style);
         this.texture = texture;

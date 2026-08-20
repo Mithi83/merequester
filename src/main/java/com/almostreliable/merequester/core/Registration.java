@@ -173,7 +173,7 @@ public final class Registration {
         }
 
         private static void registerTab(RegisterEvent registerEvent) {
-            registerEvent.register(Registries.CREATIVE_MODE_TAB, TAB_KEY.location(), () -> TAB);
+            registerEvent.register(Registries.CREATIVE_MODE_TAB, TAB_KEY.identifier(), () -> TAB);
         }
     }
 }

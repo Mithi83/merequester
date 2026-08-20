@@ -3,7 +3,7 @@ package com.almostreliable.merequester;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.mojang.blaze3d.platform.InputConstants;
 
@@ -13,8 +13,8 @@ public final class Utils {
 
     private Utils() {}
 
-    public static ResourceLocation getRL(String path) {
-        return ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, path);
+    public static Identifier getRL(String path) {
+        return Identifier.fromNamespaceAndPath(ModConstants.MOD_ID, path);
     }
 
     public static MutableComponent translate(String type, String key, Object... args) {

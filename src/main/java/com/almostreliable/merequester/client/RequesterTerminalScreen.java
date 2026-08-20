@@ -10,7 +10,7 @@ import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 import appeng.api.config.Settings;
@@ -36,7 +36,7 @@ import java.util.WeakHashMap;
 
 public class RequesterTerminalScreen<T extends RequesterTerminalMenu> extends AbstractRequesterScreen<T> {
 
-    private static final ResourceLocation TEXTURE = Utils.getRL(String.format("textures/gui/%s.png", MERequester.TERMINAL_ID));
+    private static final Identifier TEXTURE = Utils.getRL(String.format("textures/gui/%s.png", MERequester.TERMINAL_ID));
     private static final Rect2i FOOTER_BBOX = new Rect2i(0, 133, GUI_WIDTH, GUI_FOOTER_HEIGHT + 2);
 
     private final HashMap<Long, RequesterReference> byId = new HashMap<>();
