@@ -30,7 +30,7 @@ public class StateBox extends AECheckbox implements ITooltip {
     }
 
     @Override
-    public void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mX, int mY, float partial) {
+    public void extractContents(GuiGraphicsExtractor guiGraphics, int mX, int mY, float partial) {
         Blitter icon;
         if (isMouseOver(mX, mY) && !isFocused()) {
             icon = isSelected() ? CHECKED_FOCUS : UNCHECKED_FOCUS;
