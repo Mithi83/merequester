@@ -8,6 +8,7 @@ import com.almostreliable.merequester.core.Config;
 import com.almostreliable.merequester.requester.Request;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 
+import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -71,8 +72,8 @@ public class RequesterTerminalScreen<T extends RequesterTerminalMenu> extends Ab
     }
 
     @Override
-    public boolean charTyped(char character, int key) {
-        return character == ' ' && searchField.getValue().isEmpty() || super.charTyped(character, key);
+    public boolean charTyped(CharacterEvent event) {
+        return event.codepointAsString().equals(" ") && searchField.getValue().isEmpty() || super.charTyped(event);
     }
 
     @Override
