@@ -78,7 +78,7 @@ public class NumberField extends ConfirmableTextField {
     public void renderWidget(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partial) {
         super.renderWidget(guiGraphics, mouseX, mouseY, partial);
         if (!isFluid) return;
-        guiGraphics.drawString(Minecraft.getInstance().font, "B", getX() + WIDTH - PADDING, getY(), 0x54_5454, false);
+        guiGraphics.text(Minecraft.getInstance().font, "B", getX() + WIDTH - PADDING, getY(), 0x54_5454, false);
     }
 
     private void validate() {

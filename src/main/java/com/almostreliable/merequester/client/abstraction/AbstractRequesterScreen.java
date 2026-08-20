@@ -173,7 +173,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
         if (lines.isEmpty()) {
             var text = Utils.translate("gui", "no_requesters").getString();
             var textWidth = font.width(text);
-            guiGraphics.drawString(
+            guiGraphics.text(
                 font,
                 text,
                 (int) ((GUI_WIDTH - textWidth) / 2f - 10),
@@ -203,7 +203,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
                 if (rows > 1) text = String.format("%s (%s)", text, rows);
                 text = font.plainSubstrByWidth(text, TEXT_MAX_WIDTH, true);
 
-                guiGraphics.drawString(
+                guiGraphics.text(
                     font,
                     text,
                     GUI_PADDING_X + TEXT_MARGIN_X,
