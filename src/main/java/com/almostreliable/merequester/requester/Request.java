@@ -9,8 +9,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import appeng.api.stacks.AEKey;
@@ -189,7 +187,6 @@ public final class Request implements INBTSerializable<CompoundTag> {
         return batch;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public RequestHost getRequesterReference() {
         assert host != null;
         return host;

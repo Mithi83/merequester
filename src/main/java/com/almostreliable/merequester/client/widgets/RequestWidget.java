@@ -6,8 +6,6 @@ import com.almostreliable.merequester.network.RequestUpdatePacket;
 import com.almostreliable.merequester.requester.Request;
 
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import appeng.client.gui.style.ScreenStyle;
@@ -17,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
 public class RequestWidget {
 
     private final RequestDisplay host;
