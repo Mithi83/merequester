@@ -1,4 +1,4 @@
-@NonnullDefault
+@NullMarked
 package com.almostreliable.merequester.core;
 
-import org.lwjgl.system.NonnullDefault;
+import org.jspecify.annotations.NullMarked;
