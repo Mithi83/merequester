@@ -27,7 +27,7 @@ public class SubmitButton extends AECheckbox implements ITooltip {
     }
 
     @Override
-    public void renderWidget(GuiGraphicsExtractor guiGraphics, int mX, int mY, float partial) {
+    public void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mX, int mY, float partial) {
         Blitter icon = isFocused() || isMouseOver(mX, mY) ? FOCUSED : UNFOCUSED;
         if (!isMouseOver(mX, mY)) {
             setFocused(false);

@@ -38,7 +38,7 @@ public class StatusDisplay extends AbstractWidget implements ITooltip {
 
     @SuppressWarnings("DataFlowIssue")
     @Override
-    public void renderWidget(GuiGraphicsExtractor guiGraphics, int mX, int mY, float partialTick) {
+    public void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mX, int mY, float partialTick) {
         guiGraphics.fill(getX(), getY(), getX() + width, getY() + height, 0xFF << 3 * 8 | getStatusColor().getColor());
     }
 
