@@ -19,7 +19,7 @@ class ReqWirelessTerminalScreen extends RequesterTerminalScreen<ReqWirelessTermi
     ReqWirelessTerminalScreen(ReqWirelessTerminalMenu menu, Inventory playerInventory, Component name, ScreenStyle style) {
         super(menu, playerInventory, name, style);
         if (getMenu().isWUT()) {
-            addToLeftToolbar(cycleTerminalButton());
+            addTerminalSelectionPanel(widgets);
         }
 
         upgradesPanel = addUpgradePanel(widgets, getMenu());
@@ -38,9 +38,6 @@ class ReqWirelessTerminalScreen extends RequesterTerminalScreen<ReqWirelessTermi
     public WTMenuHost getHost() {
         return (WTMenuHost) getMenu().getHost();
     }
-
-    @Override
-    public void storeState() {}
 
     @Override
     public boolean keyPressed(KeyEvent event) {

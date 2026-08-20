@@ -7,6 +7,9 @@ import appeng.menu.locator.ItemMenuHostLocator;
 import de.mari_023.ae2wtlib.api.terminal.ItemWT;
 
 class ReqWirelessTerminalItem extends ItemWT {
+    public ReqWirelessTerminalItem(Properties p) {
+        super(p);
+    }
 
     @Override
     public MenuType<?> getMenuType(ItemMenuHostLocator itemMenuHostLocator, Player player) {

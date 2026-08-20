@@ -1,12 +1,16 @@
 package com.almostreliable.merequester.compat.wtlib;
 
+import com.almostreliable.merequester.ModConstants;
 import com.almostreliable.merequester.Utils;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
-import net.neoforged.fml.loading.LoadingModList;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -63,7 +67,7 @@ public final class WirelessTerminalCompat {
     }
 
     private boolean isLoaded() {
-        return LoadingModList.get().getModFileById("ae2wtlib") != null;
+        return ModList.get().getModFileById("ae2wtlib") != null;
     }
 
     private WirelessTerminalCompat() {}
@@ -84,11 +88,12 @@ public final class WirelessTerminalCompat {
         }
 
         public static void registerWirelessTerminal(Registry<Item> registry) {
-            WIRELESS_REQUESTER_TERMINAL = new ReqWirelessTerminalItem();
+            WIRELESS_REQUESTER_TERMINAL = new ReqWirelessTerminalItem(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(
+                ModConstants.MOD_ID, TERMINAL_ID)))); // TODO this is probably not the correct way with the manual .setId
             Registry.register(registry, Utils.getRL(TERMINAL_ID), WIRELESS_REQUESTER_TERMINAL);
             AddTerminalEvent.register(event -> event.builder(
                     "requester", ReqWirelessTerminalMenuHost::new, ReqWirelessTerminalMenu.TYPE, WIRELESS_REQUESTER_TERMINAL,
-                    Icon.PATTERN_ACCESS
+                    Icon.PATTERN_ACCESS // TODO 26.1 this looks like the wrong value
                 )
                 .addTerminal());
         }
@@ -97,8 +102,8 @@ public final class WirelessTerminalCompat {
             assert WIRELESS_REQUESTER_TERMINAL != null;
             GridLinkables.register(WIRELESS_REQUESTER_TERMINAL, WirelessTerminalItem.LINKABLE_HANDLER);
             event.registerItem(
-                Capabilities.EnergyStorage.ITEM,
-                (stack, context) -> new PoweredItemCapabilities(stack, WIRELESS_REQUESTER_TERMINAL),
+                Capabilities.Energy.ITEM,
+                (stack, context) -> new PoweredItemCapabilities(context, WIRELESS_REQUESTER_TERMINAL, WIRELESS_REQUESTER_TERMINAL),
                 WIRELESS_REQUESTER_TERMINAL
             );
         }
