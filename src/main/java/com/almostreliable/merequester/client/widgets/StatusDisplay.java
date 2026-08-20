@@ -4,7 +4,7 @@ import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.requester.status.RequestStatus;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
@@ -38,7 +38,7 @@ public class StatusDisplay extends AbstractWidget implements ITooltip {
 
     @SuppressWarnings("DataFlowIssue")
     @Override
-    public void renderWidget(GuiGraphics guiGraphics, int mX, int mY, float partialTick) {
+    public void renderWidget(GuiGraphicsExtractor guiGraphics, int mX, int mY, float partialTick) {
         guiGraphics.fill(getX(), getY(), getX() + width, getY() + height, 0xFF << 3 * 8 | getStatusColor().getColor());
     }
 

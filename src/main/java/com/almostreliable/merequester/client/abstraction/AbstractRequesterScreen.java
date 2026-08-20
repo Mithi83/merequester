@@ -8,7 +8,7 @@ import com.almostreliable.merequester.mixin.accessors.WidgetContainerMixin;
 import com.almostreliable.merequester.requester.Request;
 import com.almostreliable.merequester.requester.abstraction.AbstractRequesterMenu;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.nbt.CompoundTag;
@@ -165,7 +165,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     }
 
     @Override
-    public void drawFG(GuiGraphics guiGraphics, int pX, int pY, int mX, int mY) {
+    public void drawFG(GuiGraphicsExtractor guiGraphics, int pX, int pY, int mX, int mY) {
         menu.slots.removeIf(RequestSlot.class::isInstance);
 
         int textColor = style.getColor(PaletteColor.DEFAULT_TEXT_COLOR).toARGB();
@@ -262,7 +262,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     }
 
     @Override
-    public void drawBG(GuiGraphics guiGraphics, int pX, int pY, int mX, int mY, float partial) {
+    public void drawBG(GuiGraphicsExtractor guiGraphics, int pX, int pY, int mX, int mY, float partial) {
         blit(guiGraphics, pX, pY, HEADER_BBOX);
 
         int scrollLevel = scrollbar.getCurrentScroll();
@@ -296,7 +296,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
 
     protected abstract RequesterReference getById(long requesterId, String name, long sortBy);
 
-    private void blit(GuiGraphics guiGraphics, int pX, int pY, Rect2i srcRect) {
+    private void blit(GuiGraphicsExtractor guiGraphics, int pX, int pY, Rect2i srcRect) {
         guiGraphics.blit(texture, pX, pY, srcRect.getX(), srcRect.getY(), srcRect.getWidth(), srcRect.getHeight());
     }
 

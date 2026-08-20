@@ -5,7 +5,7 @@ import com.almostreliable.merequester.mixin.accessors.EditBoxMixin;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 
 import appeng.api.stacks.AEFluidKey;
@@ -75,7 +75,7 @@ public class NumberField extends ConfirmableTextField {
     }
 
     @Override
-    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partial) {
+    public void renderWidget(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partial) {
         super.renderWidget(guiGraphics, mouseX, mouseY, partial);
         if (!isFluid) return;
         guiGraphics.drawString(Minecraft.getInstance().font, "B", getX() + WIDTH - PADDING, getY(), 0x54_5454, false);
