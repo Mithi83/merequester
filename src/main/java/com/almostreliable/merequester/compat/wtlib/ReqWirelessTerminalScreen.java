@@ -2,6 +2,7 @@ package com.almostreliable.merequester.compat.wtlib;
 
 import com.almostreliable.merequester.client.RequesterTerminalScreen;
 
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -42,7 +43,7 @@ class ReqWirelessTerminalScreen extends RequesterTerminalScreen<ReqWirelessTermi
     public void storeState() {}
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int keyPressed) {
-        return super.keyPressed(keyCode, scanCode, keyPressed) || checkForTerminalKeys(keyCode, scanCode);
+    public boolean keyPressed(KeyEvent event) {
+        return super.keyPressed(event) || checkForTerminalKeys(event);
     }
 }
