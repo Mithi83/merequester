@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 
@@ -43,7 +44,7 @@ public class StatusDisplay extends AbstractWidget implements ITooltip {
     }
 
     @Override
-    protected boolean isValidClickButton(int button) {
+    protected boolean isValidClickButton(MouseButtonInfo buttonInfo) {
         return false;
     }
 
