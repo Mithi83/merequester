@@ -32,8 +32,8 @@ public class RequesterBlock extends AEBaseEntityBlock<RequesterBlockEntity> {
     private static final IOrientationStrategy ORIENTATION_STRATEGY = new FacingWithVerticalSpin();
     private static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
-    public RequesterBlock(Properties properties) {
-        super(properties);
+    public RequesterBlock(Properties p) {
+        super(metalProps(p));
         registerDefaultState(defaultBlockState().setValue(ACTIVE, false));
     }
 

@@ -62,8 +62,7 @@ public final class Registration {
 
     public static final DeferredBlock<RequesterBlock> REQUESTER_BLOCK = BLOCKS.registerBlock(
         REQUESTER_ID,
-        RequesterBlock::new,
-        AEBaseBlock.metalProps()
+        RequesterBlock::new
     );
     public static final DeferredItem<BlockItem> REQUESTER_ITEM = ITEMS.registerSimpleBlockItem(
         REQUESTER_ID,
