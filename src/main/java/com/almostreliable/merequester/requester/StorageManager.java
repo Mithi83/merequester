@@ -2,10 +2,11 @@ package com.almostreliable.merequester.requester;
 
 import com.almostreliable.merequester.core.Config;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 
 import appeng.api.config.FuzzyMode;
 import appeng.api.networking.IStackWatcher;
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class StorageManager implements IStorageWatcherNode, INBTSerializable<CompoundTag> {
+public class StorageManager implements IStorageWatcherNode, ValueIOSerializable {
 
     private final RequesterBlockEntity host;
     private final Storage[] storages;
@@ -66,18 +67,16 @@ public class StorageManager implements IStorageWatcherNode, INBTSerializable<Com
     }
 
     @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider registries) {
-        var tag = new CompoundTag();
+    public void serialize(ValueOutput data) {
         for (var i = 0; i < storages.length; i++) {
-            tag.put(String.valueOf(i), get(i).serializeNBT(registries));
+            get(i).serialize(data.child(String.valueOf(i)));
         }
-        return tag;
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider registries, CompoundTag tag) {
+    public void deserialize(ValueInput data) {
         for (var i = 0; i < storages.length; i++) {
-            get(i).deserializeNBT(registries, tag.getCompound(String.valueOf(i)));
+            get(i).deserialize(data.childOrEmpty(String.valueOf(i)));
         }
     }
 
@@ -115,7 +114,7 @@ public class StorageManager implements IStorageWatcherNode, INBTSerializable<Com
         get(slot).knownAmount = host.getMainNodeGrid().getStorageService().getInventory().getAvailableStacks().get(key);
     }
 
-    public static class Storage implements INBTSerializable<CompoundTag> {
+    public static class Storage implements ValueIOSerializable {
 
         // serialization IDs
         private static final String KEY_ID = "key";
@@ -131,21 +130,23 @@ public class StorageManager implements IStorageWatcherNode, INBTSerializable<Com
         private long knownAmount = -1; // the known amount stored in the system
 
         @Override
-        public CompoundTag serializeNBT(HolderLookup.Provider registries) {
-            var tag = new CompoundTag();
-            if (key != null) tag.put(KEY_ID, key.toTagGeneric(registries));
-            tag.putLong(BUFFER_AMOUNT_ID, bufferAmount);
-            tag.putLong(PENDING_AMOUNT_ID, pendingAmount);
-            tag.putLong(KNOWN_AMOUNT_ID, knownAmount);
-            return tag;
+        public void serialize(ValueOutput data) {
+            if (key != null) key.toTagGeneric(data.child(KEY_ID));
+            data.putLong(BUFFER_AMOUNT_ID, bufferAmount);
+            data.putLong(PENDING_AMOUNT_ID, pendingAmount);
+            data.putLong(KNOWN_AMOUNT_ID, knownAmount);
         }
 
         @Override
-        public void deserializeNBT(HolderLookup.Provider registries, CompoundTag tag) {
-            key = tag.contains(KEY_ID) ? AEKey.fromTagGeneric(registries, tag.getCompound(KEY_ID)) : null;
-            bufferAmount = tag.getLong(BUFFER_AMOUNT_ID);
-            pendingAmount = tag.getLong(PENDING_AMOUNT_ID);
-            knownAmount = tag.getLong(KNOWN_AMOUNT_ID);
+        public void deserialize(ValueInput data) {
+            var childKey = data.child(KEY_ID);
+            if (childKey.isPresent())
+                key = AEKey.fromTagGeneric(childKey.orElseThrow());
+            else
+                key = null;
+            bufferAmount = data.getLongOr(BUFFER_AMOUNT_ID, 0);
+            pendingAmount = data.getLongOr(PENDING_AMOUNT_ID, 0);
+            knownAmount = data.getLongOr(KNOWN_AMOUNT_ID, 0);
         }
 
         /**

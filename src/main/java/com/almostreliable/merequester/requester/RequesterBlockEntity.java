@@ -20,6 +20,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.GridFlags;
@@ -85,21 +87,19 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
     }
 
     @Override
-    public void loadTag(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadTag(tag, registries);
-        if (tag.contains(REQUESTS_ID)) requestManager.deserializeNBT(registries, tag.getCompound(REQUESTS_ID));
-        if (tag.contains(REQUEST_STATUS_ID)) deserializeStatus(tag.getCompound(REQUEST_STATUS_ID));
-        if (tag.contains(STORAGE_MANAGER_ID)) {
-            storageManager.deserializeNBT(registries, tag.getCompound(STORAGE_MANAGER_ID));
-        }
+    public void loadTag(ValueInput data) {
+        super.loadTag(data);
+        requestManager.deserialize(data.childOrEmpty(REQUESTS_ID));
+        deserializeStatus(data.childOrEmpty(REQUEST_STATUS_ID));
+        storageManager.deserialize(data.childOrEmpty(STORAGE_MANAGER_ID));
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put(REQUESTS_ID, requestManager.serializeNBT(registries));
-        tag.put(REQUEST_STATUS_ID, serializeStatus());
-        tag.put(STORAGE_MANAGER_ID, storageManager.serializeNBT(registries));
+    public void saveAdditional(ValueOutput data) {
+        super.saveAdditional(data);
+        requestManager.serialize(data.child(REQUESTS_ID));
+        serializeStatus(data.child(REQUEST_STATUS_ID));
+        storageManager.serialize(data.child(STORAGE_MANAGER_ID));
     }
 
     @Override
@@ -172,27 +172,23 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
         storageManager.addDrops(drops);
     }
 
-    private void deserializeStatus(CompoundTag tag) {
+    private void deserializeStatus(ValueInput data) {
         for (var i = 0; i < requestStatus.length; i++) {
-            if (tag.contains(String.valueOf(i))) {
-                var stateTag = tag.getCompound(String.valueOf(i));
-                var link = StorageHelper.loadCraftingLink(stateTag, this);
+            var child = data.child(String.valueOf(i));
+            if (child.isPresent()) {
+                var link = StorageHelper.loadCraftingLink(child.orElseThrow(), this);
                 requestStatus[i] = new LinkState(link);
             }
         }
     }
 
-    private CompoundTag serializeStatus() {
-        var tag = new CompoundTag();
+    private void serializeStatus(ValueOutput data) {
         for (var i = 0; i < requestStatus.length; i++) {
             var state = requestStatus[i];
             if (state instanceof LinkState cls) {
-                var stateTag = new CompoundTag();
-                cls.link().writeToNBT(stateTag);
-                tag.put(String.valueOf(i), stateTag);
+                cls.link().writeToNBT(data.child(String.valueOf(i)));
             }
         }
-        return tag;
     }
 
     private boolean handleRequests() {

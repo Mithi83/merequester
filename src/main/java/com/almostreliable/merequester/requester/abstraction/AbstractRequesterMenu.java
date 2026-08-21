@@ -4,11 +4,13 @@ import com.almostreliable.merequester.MERequester;
 import com.almostreliable.merequester.network.RequesterSyncPacket;
 import com.almostreliable.merequester.requester.RequesterBlockEntity;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import appeng.api.behaviors.ContainerItemStrategies;
@@ -112,17 +114,18 @@ public abstract class AbstractRequesterMenu extends AEBaseMenu {
         var client = requestTracker.getClient();
 
         // get the requests from the server
-        var tag = server.serializeNBT(getPlayer().registryAccess());
+        TagValueOutput data = TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING);
+        server.serialize(data);
         // store the information in the client tracker to
         // check for differences on partial updates later
         // tag serialization is used to avoid references to the original data
-        client.deserializeNBT(getPlayer().registryAccess(), tag);
+        client.deserialize(TagValueInput.create(ProblemReporter.DISCARDING, getPlayer().registryAccess(), data.buildResult()));
 
         // send relevant data to the client
-        tag.putString(UNIQUE_NAME_ID, requestTracker.getName());
-        tag.putLong(SORT_BY_ID, requestTracker.getSortBy());
+        data.putString(UNIQUE_NAME_ID, requestTracker.getName());
+        data.putLong(SORT_BY_ID, requestTracker.getSortBy());
         if (getPlayer() instanceof ServerPlayer serverPlayer) {
-            PacketDistributor.sendToPlayer(serverPlayer, RequesterSyncPacket.createInventory(requestTracker.getId(), tag));
+            PacketDistributor.sendToPlayer(serverPlayer, RequesterSyncPacket.createInventory(requestTracker.getId(), data.buildResult()));
         }
     }
 
@@ -130,7 +133,7 @@ public abstract class AbstractRequesterMenu extends AEBaseMenu {
         var server = requestTracker.getServer();
         var client = requestTracker.getClient();
 
-        CompoundTag tag = null;
+        TagValueOutput data = null;
         // iterate through the server data and check for differences
         for (var i = 0; i < server.size(); i++) {
             var serverRequest = server.get(i);
@@ -138,22 +141,22 @@ public abstract class AbstractRequesterMenu extends AEBaseMenu {
 
             if (serverRequest.isDifferent(clientRequest)) {
                 // write initial data as soon as something is different
-                if (tag == null) {
-                    tag = new CompoundTag();
-                    tag.putString(UNIQUE_NAME_ID, requestTracker.getName());
-                    tag.putLong(SORT_BY_ID, requestTracker.getSortBy());
+                if (data == null) {
+                    data = TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING);
+                    data.putString(UNIQUE_NAME_ID, requestTracker.getName());
+                    data.putLong(SORT_BY_ID, requestTracker.getSortBy());
                 }
 
-                var serverData = serverRequest.serializeNBT(getPlayer().registryAccess());
-                tag.put(String.valueOf(i), serverData);
-                // update the client information for future difference checks
-                clientRequest.deserializeNBT(getPlayer().registryAccess(), serverData);
+                serverRequest.serialize(data.child(String.valueOf(i)));
+                var tmp = TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING);
+                serverRequest.serialize(tmp);
+                clientRequest.deserialize(TagValueInput.create(ProblemReporter.DISCARDING, getPlayer().registryAccess(), tmp.buildResult()));
             }
         }
 
         // only send an update if something changed
-        if (tag != null && getPlayer() instanceof ServerPlayer serverPlayer) {
-            PacketDistributor.sendToPlayer(serverPlayer, RequesterSyncPacket.createInventory(requestTracker.getId(), tag));
+        if (data != null && getPlayer() instanceof ServerPlayer serverPlayer) {
+            PacketDistributor.sendToPlayer(serverPlayer, RequesterSyncPacket.createInventory(requestTracker.getId(), data.buildResult()));
         }
     }
 

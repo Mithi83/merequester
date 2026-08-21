@@ -3,12 +3,12 @@ package com.almostreliable.merequester.requester;
 import com.almostreliable.merequester.core.Config;
 import com.almostreliable.merequester.requester.abstraction.RequestHost;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
@@ -35,7 +35,7 @@ import java.util.List;
  * Automatically provides a menu wrapper by implementing {@link InternalInventory}.
  */
 @SuppressWarnings("UnstableApiUsage")
-public class RequestManager implements MEStorage, GenericInternalInventory, InternalInventory, INBTSerializable<CompoundTag> {
+public class RequestManager implements MEStorage, GenericInternalInventory, InternalInventory, ValueIOSerializable {
 
     // if null, the inventory is client-side and doesn't need saving
     @Nullable
@@ -139,18 +139,16 @@ public class RequestManager implements MEStorage, GenericInternalInventory, Inte
     }
 
     @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider registries) {
-        var tag = new CompoundTag();
+    public void serialize(ValueOutput data) {
         for (var i = 0; i < size(); i++) {
-            tag.put(String.valueOf(i), get(i).serializeNBT(registries));
+            get(i).serialize(data.child(String.valueOf(i)));
         }
-        return tag;
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider registries, CompoundTag tag) {
+    public void deserialize(ValueInput data) {
         for (var i = 0; i < size(); i++) {
-            get(i).deserializeNBT(registries, tag.getCompound(String.valueOf(i)));
+            get(i).deserialize(data.childOrEmpty(String.valueOf(i)));
         }
     }
 

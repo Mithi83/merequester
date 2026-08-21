@@ -14,10 +14,13 @@ import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.ValueInput;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import appeng.api.behaviors.ContainerItemStrategies;
@@ -110,22 +113,21 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
         return Tooltips.getEmptyingTooltip(ButtonToolTips.SetAction, carried, emptyingAction);
     }
 
-    public void updateFromMenu(boolean clearData, long requesterId, CompoundTag data) {
+    public void updateFromMenu(boolean clearData, long requesterId, CompoundTag tag) {
         if (clearData) {
             clear();
             refreshList();
             return;
         }
 
-        var name = data.getString(AbstractRequesterMenu.UNIQUE_NAME_ID);
-        var sortBy = data.getLong(AbstractRequesterMenu.SORT_BY_ID);
+        ValueInput data = TagValueInput.create(ProblemReporter.DISCARDING, getPlayer().registryAccess(), tag);
+        var name = data.getStringOr(AbstractRequesterMenu.UNIQUE_NAME_ID, "");
+        var sortBy = data.getLongOr(AbstractRequesterMenu.SORT_BY_ID, 0);
         var requests = getById(requesterId, name, sortBy).getRequestManager();
 
         for (var i = 0; i < requests.size(); i++) {
-            var requestIndex = String.valueOf(i);
-            if (data.contains(requestIndex)) {
-                requests.get(i).deserializeNBT(menu.getPlayer().registryAccess(), data.getCompound(requestIndex));
-            }
+            var child = data.child(String.valueOf(i));
+            if (child.isPresent()) requests.get(i).deserialize(child.orElseThrow());
         }
 
         if (refreshList) refreshList();
