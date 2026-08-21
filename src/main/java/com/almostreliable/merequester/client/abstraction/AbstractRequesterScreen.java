@@ -297,7 +297,10 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     protected abstract RequesterReference getById(long requesterId, String name, long sortBy);
 
     private void blit(GuiGraphicsExtractor guiGraphics, int pX, int pY, Rect2i srcRect) {
-        guiGraphics.blit(texture, pX, pY, srcRect.getX(), srcRect.getY(), srcRect.getWidth(), srcRect.getHeight());
+        // TODO 26.1 this is hardcoded and thus fragile
+        float width = 256;
+        float height = 256;
+        guiGraphics.blit(texture, pX, pY, pX+srcRect.getWidth(), pY+srcRect.getHeight(), (float)srcRect.getX()/width, (float)(srcRect.getX() + srcRect.getWidth())/width, (float)srcRect.getY()/height, (float)(srcRect.getY() + srcRect.getHeight())/height);
     }
 
     private RequestSlot createSlot(int index, Request request) {
