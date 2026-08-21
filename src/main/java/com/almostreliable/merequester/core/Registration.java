@@ -21,6 +21,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -32,11 +34,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 import appeng.api.AECapabilities;
-import appeng.api.parts.PartModels;
 import appeng.block.AEBaseBlock;
 import appeng.blockentity.AEBaseBlockEntity;
 import appeng.items.parts.PartItem;
-import appeng.items.parts.PartModelsHelper;
 
 import java.util.List;
 
@@ -67,15 +67,16 @@ public final class Registration {
     public static final DeferredItem<BlockItem> REQUESTER_ITEM = ITEMS.registerSimpleBlockItem(
         REQUESTER_ID,
         REQUESTER_BLOCK,
-        new Item.Properties()
+        () -> new Item.Properties()
     );
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RequesterBlockEntity>> REQUESTER_ENTITY
         = BLOCK_ENTITIES.register(
         REQUESTER_ID, () -> {
             // noinspection DataFlowIssue
-            var type = BlockEntityType.Builder
-                .of(RequesterBlockEntity::new, REQUESTER_BLOCK.get())
-                .build(null);
+            var type = new BlockEntityType<RequesterBlockEntity>(
+                RequesterBlockEntity::new,
+                REQUESTER_BLOCK.get()
+            );
             AEBaseBlockEntity.registerBlockEntityItem(type, REQUESTER_BLOCK.asItem());
             REQUESTER_BLOCK.get().setBlockEntity(RequesterBlockEntity.class, type, null, null);
             return type;
@@ -89,8 +90,6 @@ public final class Registration {
     public static final DeferredItem<PartItem<RequesterTerminalPart>> REQUESTER_TERMINAL = ITEMS.registerItem(
         TERMINAL_ID,
         properties -> {
-            PartModels.registerModels(PartModelsHelper.createModels(RequesterTerminalPart.class));
-
             return new PartItem<>(
                 properties,
                 RequesterTerminalPart.class,
