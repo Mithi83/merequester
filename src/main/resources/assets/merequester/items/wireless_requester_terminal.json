@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "merequester:item/wireless_requester_terminal"
+  }
+}
