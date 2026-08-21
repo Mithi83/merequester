@@ -63,7 +63,7 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
     private TickRateModulation currentTickRate = TickRateModulation.IDLE;
 
     public RequesterBlockEntity(BlockPos pos, BlockState blockState) {
-        this(Registration.REQUESTER_ENTITY.get(), pos, blockState);
+        this(com.almostreliable.merequester.core.Registration.REQUESTER_ENTITY.get(), pos, blockState); // TODO 26.1 somehow this did not work otherwise
     }
 
     public RequesterBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState blockState) {
@@ -106,7 +106,7 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
     public void importSettings(SettingsFrom mode, DataComponentMap input, @Nullable Player player) {
         super.importSettings(mode, input, player);
         if (mode == SettingsFrom.MEMORY_CARD) {
-            var exportedRequests = input.get(Registration.EXPORTED_REQUESTS.get());
+            var exportedRequests = input.get(com.almostreliable.merequester.core.Registration.EXPORTED_REQUESTS.get()); // TODO 26.1 somehow this did not work otherwise
             if (exportedRequests != null) {
                 requestManager.fromComponent(exportedRequests);
             }
@@ -117,7 +117,7 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
     public void exportSettings(SettingsFrom mode, DataComponentMap.Builder builder, @Nullable Player player) {
         super.exportSettings(mode, builder, player);
         if (mode == SettingsFrom.MEMORY_CARD) {
-            builder.set(Registration.EXPORTED_REQUESTS.get(), requestManager.toComponent());
+            builder.set(com.almostreliable.merequester.core.Registration.EXPORTED_REQUESTS.get(), requestManager.toComponent()); // TODO 26.1 somehow this did not work otherwise
         }
     }
 
