@@ -9,6 +9,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+
 import appeng.api.behaviors.GenericInternalInventory;
 import appeng.api.config.Actionable;
 import appeng.api.inventories.InternalInventory;
@@ -179,6 +183,49 @@ public class RequestManager implements MEStorage, GenericInternalInventory, Inte
     public Component getDescription() {
         if (host == null) return net.minecraft.network.chat.Component.empty();
         return host.getTerminalName();
+    }
+
+    @Override
+    public void updateSnapshots(TransactionContext transaction) {} // TODO 26.1
+
+    @Override
+    public ResourceHandler<ItemResource> toResourceHandler() { // TODO 26.1
+        return new ResourceHandler<ItemResource>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public ItemResource getResource(int index) {
+                return null;
+            }
+
+            @Override
+            public long getAmountAsLong(int index) {
+                return 0;
+            }
+
+            @Override
+            public long getCapacityAsLong(int index, ItemResource resource) {
+                return 0;
+            }
+
+            @Override
+            public boolean isValid(int index, ItemResource resource) {
+                return false;
+            }
+
+            @Override
+            public int insert(int index, ItemResource resource, int amount, TransactionContext transaction) {
+                return 0;
+            }
+
+            @Override
+            public int extract(int index, ItemResource resource, int amount, TransactionContext transaction) {
+                return 0;
+            }
+        };
     }
 
     // <editor-fold defaultstate="collapsed" desc="Not required for requests.">
