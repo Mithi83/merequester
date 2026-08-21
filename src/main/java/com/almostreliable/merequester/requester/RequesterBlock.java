@@ -64,6 +64,7 @@ public class RequesterBlock extends AEBaseEntityBlock<RequesterBlockEntity> {
         return ORIENTATION_STRATEGY;
     }
 
+    /* TODO 26.1
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag tooltipFlag) {
         if (Minecraft.getInstance().hasShiftDown()) {
@@ -73,4 +74,5 @@ public class RequesterBlock extends AEBaseEntityBlock<RequesterBlockEntity> {
             Utils.addShiftInfoTooltip(tooltip);
         }
     }
+    */
 }
