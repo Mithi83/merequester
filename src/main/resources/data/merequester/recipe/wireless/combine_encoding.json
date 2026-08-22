@@ -6,12 +6,8 @@
     }
   ],
   "type": "ae2wtlib:combine",
-  "terminalA": {
-    "item": "merequester:wireless_requester_terminal"
-  },
-  "terminalB": {
-    "item": "ae2wtlib:wireless_pattern_encoding_terminal"
-  },
+  "terminalA": "merequester:wireless_requester_terminal",
+  "terminalB": "ae2wtlib:wireless_pattern_encoding_terminal",
   "terminalAName": "requester",
   "terminalBName": "pattern_encoding"
 }
