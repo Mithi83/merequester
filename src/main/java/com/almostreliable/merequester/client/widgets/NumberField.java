@@ -41,8 +41,9 @@ public class NumberField extends ConfirmableTextField {
     private static final int WIDTH = 52;
     private static final int HEIGHT = 12;
 
-    private static final int TEXT_COLOR = 0xFF_FFFF;
-    private static final int ERROR_COLOR = 0xFF_0000;
+    private static final int TEXT_COLOR = 0xFFFF_FFFF;
+    private static final int ERROR_COLOR = 0xFFFF_0000;
+    private static final int B_COLOR = 0xFF54_5454;
 
     private static final int MIN_VALUE = 0;
 
@@ -78,7 +79,7 @@ public class NumberField extends ConfirmableTextField {
     public void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partial) {
         super.extractWidgetRenderState(guiGraphics, mouseX, mouseY, partial);
         if (!isFluid) return;
-        guiGraphics.text(Minecraft.getInstance().font, "B", getX() + WIDTH - PADDING, getY(), 0x54_5454, false);
+        guiGraphics.text(Minecraft.getInstance().font, "B", getX() + WIDTH - PADDING, getY(), B_COLOR, false);
     }
 
     private void validate() {
