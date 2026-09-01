@@ -72,15 +72,15 @@ public final class Request implements ValueIOSerializable {
 
     @Override
     public void deserialize(ValueInput data) {
-        state = data.getBooleanOr(STATE_ID, false);
+        state = data.getBooleanOr(STATE_ID, state);
         var childKey = data.child(KEY_ID);
         if (childKey.isPresent())
             key = AEKey.fromTagGeneric(childKey.orElseThrow());
         else
             key = null;
-        amount = data.getLongOr(AMOUNT_ID, 0);
-        batch = data.getLongOr(BATCH_ID, 0);
-        clientStatus = RequestStatus.values()[data.getIntOr(STATUS_ID, 0)];
+        amount = data.getLongOr(AMOUNT_ID, amount);
+        batch = data.getLongOr(BATCH_ID, batch);
+        clientStatus = RequestStatus.values()[data.getIntOr(STATUS_ID, clientStatus.ordinal())];
     }
 
     public void fromComponent(Component request) {

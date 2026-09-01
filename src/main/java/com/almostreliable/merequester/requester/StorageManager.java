@@ -144,9 +144,9 @@ public class StorageManager implements IStorageWatcherNode, ValueIOSerializable 
                 key = AEKey.fromTagGeneric(childKey.orElseThrow());
             else
                 key = null;
-            bufferAmount = data.getLongOr(BUFFER_AMOUNT_ID, 0);
-            pendingAmount = data.getLongOr(PENDING_AMOUNT_ID, 0);
-            knownAmount = data.getLongOr(KNOWN_AMOUNT_ID, 0);
+            bufferAmount = data.getLongOr(BUFFER_AMOUNT_ID, bufferAmount);
+            pendingAmount = data.getLongOr(PENDING_AMOUNT_ID, pendingAmount);
+            knownAmount = data.getLongOr(KNOWN_AMOUNT_ID, knownAmount);
         }
 
         /**
