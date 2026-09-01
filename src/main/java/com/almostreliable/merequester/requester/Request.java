@@ -53,8 +53,7 @@ public final class Request implements ValueIOSerializable {
     @Override
     public void serialize(ValueOutput data) {
         data.putBoolean(STATE_ID, state);
-        if (key != null)
-            key.toTagGeneric(data.child(KEY_ID));
+        if (key != null) key.toTagGeneric(data.child(KEY_ID));
         data.putLong(AMOUNT_ID, amount);
         data.putLong(BATCH_ID, batch);
         data.putInt(STATUS_ID, clientStatus.ordinal());
@@ -74,10 +73,11 @@ public final class Request implements ValueIOSerializable {
     public void deserialize(ValueInput data) {
         state = data.getBooleanOr(STATE_ID, state);
         var childKey = data.child(KEY_ID);
-        if (childKey.isPresent())
+        if (childKey.isPresent()) {
             key = AEKey.fromTagGeneric(childKey.orElseThrow());
-        else
+        } else {
             key = null;
+        }
         amount = data.getLongOr(AMOUNT_ID, amount);
         batch = data.getLongOr(BATCH_ID, batch);
         clientStatus = RequestStatus.values()[data.getIntOr(STATUS_ID, clientStatus.ordinal())];

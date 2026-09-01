@@ -5,6 +5,7 @@ import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.client.RequestSlot;
 import com.almostreliable.merequester.client.widgets.RequestWidget;
 import com.almostreliable.merequester.mixin.accessors.WidgetContainerMixin;
+import com.almostreliable.merequester.network.RequesterSyncPacket;
 import com.almostreliable.merequester.requester.Request;
 import com.almostreliable.merequester.requester.abstraction.AbstractRequesterMenu;
 
@@ -12,16 +13,12 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.TagValueInput;
-import net.minecraft.world.level.storage.ValueInput;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import appeng.api.behaviors.ContainerItemStrategies;
@@ -114,21 +111,18 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
         return Tooltips.getEmptyingTooltip(ButtonToolTips.SetAction, carried, emptyingAction);
     }
 
-    public void updateFromMenu(boolean clearData, long requesterId, CompoundTag tag) {
+    public void updateFromMenu(boolean clearData, long requesterId, RequesterSyncPacket.Payload data) {
         if (clearData) {
             clear();
             refreshList();
             return;
         }
 
-        ValueInput data = TagValueInput.create(ProblemReporter.DISCARDING, getPlayer().registryAccess(), tag);
-        var name = data.getStringOr(AbstractRequesterMenu.UNIQUE_NAME_ID, "");
-        var sortBy = data.getLongOr(AbstractRequesterMenu.SORT_BY_ID, 0);
-        var requests = getById(requesterId, name, sortBy).getRequestManager();
-
-        for (var i = 0; i < requests.size(); i++) {
-            var child = data.child(String.valueOf(i));
-            if (child.isPresent()) requests.get(i).deserialize(child.orElseThrow());
+        var requests = getById(requesterId, data.name(), data.sortBy()).getRequestManager();
+        for (var update : data.updates()) {
+            var index = update.index();
+            if (index < 0 || index >= requests.size()) continue;
+            requests.get(index).fromComponent(update.component());
         }
 
         if (refreshList) refreshList();
