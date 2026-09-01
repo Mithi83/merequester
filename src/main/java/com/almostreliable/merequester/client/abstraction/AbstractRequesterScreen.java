@@ -11,6 +11,7 @@ import com.almostreliable.merequester.requester.abstraction.AbstractRequesterMen
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -299,10 +300,18 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     protected abstract RequesterReference getById(long requesterId, String name, long sortBy);
 
     private void blit(GuiGraphicsExtractor guiGraphics, int pX, int pY, Rect2i srcRect) {
-        // TODO 26.1 this is hardcoded and thus fragile
-        float width = 256;
-        float height = 256;
-        guiGraphics.blit(texture, pX, pY, pX+srcRect.getWidth(), pY+srcRect.getHeight(), (float)srcRect.getX()/width, (float)(srcRect.getX() + srcRect.getWidth())/width, (float)srcRect.getY()/height, (float)(srcRect.getY() + srcRect.getHeight())/height);
+        guiGraphics.blit(
+            RenderPipelines.GUI_TEXTURED,
+            texture,
+            pX,
+            pY,
+            srcRect.getX(),
+            srcRect.getY(),
+            srcRect.getWidth(),
+            srcRect.getHeight(),
+            256,
+            256
+        );
     }
 
     private RequestSlot createSlot(int index, Request request) {
