@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- /
+
+## [1.5.0] - 2026-09-01
 
 - ported the mod to 26.1.2 (thanks [Mithi83](https://github.com/Mithi83)@[#71](https://github.com/AlmostReliable/merequester/pull/71))
 - added Korean translation ([#66](https://github.com/AlmostReliable/merequester/pull/66))
@@ -89,6 +92,7 @@ Known issue: Just Enough Items drag and drop is currently not working. A fix on 
 - scroll bar is always visible
 
 <!-- Versions -->
+[1.5.0]: https://github.com/AlmostReliable/merequester/releases/tag/v26.1.2-neoforge-1.5.0
 [1.4.3]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.3
 [1.4.2]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.2
 [1.4.1]: https://github.com/AlmostReliable/merequester/releases/tag/v1.21.1-neoforge-1.4.1
