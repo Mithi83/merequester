@@ -7,7 +7,8 @@ import appeng.menu.locator.ItemMenuHostLocator;
 import de.mari_023.ae2wtlib.api.terminal.ItemWT;
 
 class ReqWirelessTerminalItem extends ItemWT {
-    public ReqWirelessTerminalItem(Properties p) {
+
+    ReqWirelessTerminalItem(Properties p) {
         super(p);
     }
 
