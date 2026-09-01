@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 import appeng.client.gui.style.ScreenStyle;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.Set;

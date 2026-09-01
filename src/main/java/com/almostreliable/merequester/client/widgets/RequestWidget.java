@@ -10,7 +10,7 @@ import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import appeng.client.gui.style.ScreenStyle;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;

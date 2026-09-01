@@ -24,7 +24,7 @@ import appeng.api.storage.MEStorage;
 import appeng.helpers.externalstorage.GenericStackInv;
 import com.google.common.primitives.Ints;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;

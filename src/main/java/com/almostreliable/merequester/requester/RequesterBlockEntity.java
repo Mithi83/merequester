@@ -42,7 +42,7 @@ import appeng.me.helpers.MachineSource;
 import appeng.util.SettingsFrom;
 import com.google.common.collect.ImmutableSet;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.EnumSet;

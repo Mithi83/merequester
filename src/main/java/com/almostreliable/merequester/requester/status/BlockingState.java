@@ -4,7 +4,7 @@ import com.almostreliable.merequester.requester.RequesterBlockEntity;
 
 import appeng.api.networking.ticking.TickRateModulation;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class BlockingState implements StatusState {
 
