@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
-- /
+
+- ported the mod to 26.1.2 (thanks [Mithi83](https://github.com/Mithi83)@[#71](https://github.com/AlmostReliable/merequester/pull/71))
+- added Korean translation ([#66](https://github.com/AlmostReliable/merequester/pull/66))
+- added French translation ([#67](https://github.com/AlmostReliable/merequester/pull/67))
+- updated Russian translation ([#70](https://github.com/AlmostReliable/merequester/pull/70))
+
+Known issue: Just Enough Items drag and drop is currently not working. A fix on AE2's side is required.
 
 ## [1.4.3] - 2026-06-20
 
