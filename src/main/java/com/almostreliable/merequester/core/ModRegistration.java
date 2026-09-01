@@ -40,7 +40,7 @@ import java.util.List;
 import static com.almostreliable.merequester.MERequester.REQUESTER_ID;
 import static com.almostreliable.merequester.MERequester.TERMINAL_ID;
 
-public final class Registration {
+public final class ModRegistration {
 
     private static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(ModConstants.MOD_ID);
     private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(ModConstants.MOD_ID);
@@ -69,11 +69,7 @@ public final class Registration {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RequesterBlockEntity>> REQUESTER_ENTITY
         = BLOCK_ENTITIES.register(
         REQUESTER_ID, () -> {
-            // noinspection DataFlowIssue
-            var type = new BlockEntityType<RequesterBlockEntity>(
-                RequesterBlockEntity::new,
-                REQUESTER_BLOCK.get()
-            );
+            var type = new BlockEntityType<>(RequesterBlockEntity::new, REQUESTER_BLOCK.get());
             AEBaseBlockEntity.registerBlockEntityItem(type, REQUESTER_BLOCK.asItem());
             REQUESTER_BLOCK.get().setBlockEntity(RequesterBlockEntity.class, type, null, null);
             return type;
@@ -86,13 +82,11 @@ public final class Registration {
 
     public static final DeferredItem<PartItem<RequesterTerminalPart>> REQUESTER_TERMINAL = ITEMS.registerItem(
         TERMINAL_ID,
-        properties -> {
-            return new PartItem<>(
-                properties,
-                RequesterTerminalPart.class,
-                RequesterTerminalPart::new
-            );
-        }
+        properties -> new PartItem<>(
+            properties,
+            RequesterTerminalPart.class,
+            RequesterTerminalPart::new
+        )
     );
     public static final DeferredHolder<MenuType<?>, MenuType<RequesterTerminalMenu>> REQUESTER_TERMINAL_MENU = MENUS.register(
         TERMINAL_ID,
@@ -108,12 +102,12 @@ public final class Registration {
                 .build()
         );
 
-    private Registration() {}
+    private ModRegistration() {}
 
     public static void init(IEventBus modEventBus) {
         // High priority due to AE2WTLib closes it's registration in the registry event
-        modEventBus.addListener(EventPriority.HIGH, Registration::registerContents);
-        modEventBus.addListener(Registration::registerCapabilities);
+        modEventBus.addListener(EventPriority.HIGH, ModRegistration::registerContents);
+        modEventBus.addListener(ModRegistration::registerCapabilities);
         modEventBus.addListener(Tab::initContents);
 
         WirelessTerminalCompat.INSTANCE.init(MENUS);
@@ -140,7 +134,7 @@ public final class Registration {
         event.registerBlockEntity(
             AECapabilities.IN_WORLD_GRID_NODE_HOST,
             REQUESTER_ENTITY.get(),
-            (requester, ctx) -> requester
+            (requester, _) -> requester
         );
 
         WirelessTerminalCompat.INSTANCE.registerCapabilities(event);

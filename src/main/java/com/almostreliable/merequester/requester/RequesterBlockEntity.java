@@ -3,7 +3,7 @@ package com.almostreliable.merequester.requester;
 import com.almostreliable.merequester.MERequester;
 import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.core.Config;
-import com.almostreliable.merequester.core.Registration;
+import com.almostreliable.merequester.core.ModRegistration;
 import com.almostreliable.merequester.requester.abstraction.RequestHost;
 import com.almostreliable.merequester.requester.status.LinkState;
 import com.almostreliable.merequester.requester.status.RequestStatus;
@@ -11,9 +11,7 @@ import com.almostreliable.merequester.requester.status.StatusState;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -65,7 +63,7 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
     private TickRateModulation currentTickRate = TickRateModulation.IDLE;
 
     public RequesterBlockEntity(BlockPos pos, BlockState blockState) {
-        this(com.almostreliable.merequester.core.Registration.REQUESTER_ENTITY.get(), pos, blockState); // TODO 26.1 somehow this did not work otherwise
+        this(ModRegistration.REQUESTER_ENTITY.get(), pos, blockState);
     }
 
     public RequesterBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState blockState) {
@@ -106,7 +104,7 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
     public void importSettings(SettingsFrom mode, DataComponentMap input, @Nullable Player player) {
         super.importSettings(mode, input, player);
         if (mode == SettingsFrom.MEMORY_CARD) {
-            var exportedRequests = input.get(com.almostreliable.merequester.core.Registration.EXPORTED_REQUESTS.get()); // TODO 26.1 somehow this did not work otherwise
+            var exportedRequests = input.get(ModRegistration.EXPORTED_REQUESTS.get());
             if (exportedRequests != null) {
                 requestManager.fromComponent(exportedRequests);
             }
@@ -117,7 +115,7 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
     public void exportSettings(SettingsFrom mode, DataComponentMap.Builder builder, @Nullable Player player) {
         super.exportSettings(mode, builder, player);
         if (mode == SettingsFrom.MEMORY_CARD) {
-            builder.set(com.almostreliable.merequester.core.Registration.EXPORTED_REQUESTS.get(), requestManager.toComponent()); // TODO 26.1 somehow this did not work otherwise
+            builder.set(ModRegistration.EXPORTED_REQUESTS.get(), requestManager.toComponent());
         }
     }
 
