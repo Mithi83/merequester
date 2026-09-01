@@ -114,7 +114,7 @@ public abstract class AbstractRequesterMenu extends AEBaseMenu {
         var client = requestTracker.getClient();
 
         // get the requests from the server
-        TagValueOutput data = TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING);
+        TagValueOutput data = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, getPlayer().registryAccess());
         server.serialize(data);
         // store the information in the client tracker to
         // check for differences on partial updates later
@@ -142,13 +142,13 @@ public abstract class AbstractRequesterMenu extends AEBaseMenu {
             if (serverRequest.isDifferent(clientRequest)) {
                 // write initial data as soon as something is different
                 if (data == null) {
-                    data = TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING);
+                    data = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, getPlayer().registryAccess());
                     data.putString(UNIQUE_NAME_ID, requestTracker.getName());
                     data.putLong(SORT_BY_ID, requestTracker.getSortBy());
                 }
 
                 serverRequest.serialize(data.child(String.valueOf(i)));
-                var tmp = TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING);
+                var tmp = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, getPlayer().registryAccess());
                 serverRequest.serialize(tmp);
                 clientRequest.deserialize(TagValueInput.create(ProblemReporter.DISCARDING, getPlayer().registryAccess(), tmp.buildResult()));
             }
