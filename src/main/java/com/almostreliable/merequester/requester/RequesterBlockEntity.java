@@ -3,7 +3,7 @@ package com.almostreliable.merequester.requester;
 import com.almostreliable.merequester.MERequester;
 import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.core.Config;
-import com.almostreliable.merequester.core.Registration;
+import com.almostreliable.merequester.core.ModRegistration;
 import com.almostreliable.merequester.requester.abstraction.RequestHost;
 import com.almostreliable.merequester.requester.status.LinkState;
 import com.almostreliable.merequester.requester.status.RequestStatus;
@@ -11,15 +11,15 @@ import com.almostreliable.merequester.requester.status.StatusState;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.GridFlags;
@@ -40,7 +40,7 @@ import appeng.me.helpers.MachineSource;
 import appeng.util.SettingsFrom;
 import com.google.common.collect.ImmutableSet;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -63,7 +63,7 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
     private TickRateModulation currentTickRate = TickRateModulation.IDLE;
 
     public RequesterBlockEntity(BlockPos pos, BlockState blockState) {
-        this(Registration.REQUESTER_ENTITY.get(), pos, blockState);
+        this(ModRegistration.REQUESTER_ENTITY.get(), pos, blockState);
     }
 
     public RequesterBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState blockState) {
@@ -85,28 +85,26 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
     }
 
     @Override
-    public void loadTag(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadTag(tag, registries);
-        if (tag.contains(REQUESTS_ID)) requestManager.deserializeNBT(registries, tag.getCompound(REQUESTS_ID));
-        if (tag.contains(REQUEST_STATUS_ID)) deserializeStatus(tag.getCompound(REQUEST_STATUS_ID));
-        if (tag.contains(STORAGE_MANAGER_ID)) {
-            storageManager.deserializeNBT(registries, tag.getCompound(STORAGE_MANAGER_ID));
-        }
+    public void loadTag(ValueInput data) {
+        super.loadTag(data);
+        requestManager.deserialize(data.childOrEmpty(REQUESTS_ID));
+        deserializeStatus(data.childOrEmpty(REQUEST_STATUS_ID));
+        storageManager.deserialize(data.childOrEmpty(STORAGE_MANAGER_ID));
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put(REQUESTS_ID, requestManager.serializeNBT(registries));
-        tag.put(REQUEST_STATUS_ID, serializeStatus());
-        tag.put(STORAGE_MANAGER_ID, storageManager.serializeNBT(registries));
+    public void saveAdditional(ValueOutput data) {
+        super.saveAdditional(data);
+        requestManager.serialize(data.child(REQUESTS_ID));
+        serializeStatus(data.child(REQUEST_STATUS_ID));
+        storageManager.serialize(data.child(STORAGE_MANAGER_ID));
     }
 
     @Override
     public void importSettings(SettingsFrom mode, DataComponentMap input, @Nullable Player player) {
         super.importSettings(mode, input, player);
         if (mode == SettingsFrom.MEMORY_CARD) {
-            var exportedRequests = input.get(Registration.EXPORTED_REQUESTS.get());
+            var exportedRequests = input.get(ModRegistration.EXPORTED_REQUESTS.get());
             if (exportedRequests != null) {
                 requestManager.fromComponent(exportedRequests);
             }
@@ -117,7 +115,7 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
     public void exportSettings(SettingsFrom mode, DataComponentMap.Builder builder, @Nullable Player player) {
         super.exportSettings(mode, builder, player);
         if (mode == SettingsFrom.MEMORY_CARD) {
-            builder.set(Registration.EXPORTED_REQUESTS.get(), requestManager.toComponent());
+            builder.set(ModRegistration.EXPORTED_REQUESTS.get(), requestManager.toComponent());
         }
     }
 
@@ -134,7 +132,7 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
 
     @Override
     public TickRateModulation tickingRequest(IGridNode node, int ticksSinceLastCall) {
-        if (level == null || level.isClientSide || !getMainNode().isActive()) return TickRateModulation.IDLE;
+        if (level == null || level.isClientSide() || !getMainNode().isActive()) return TickRateModulation.IDLE;
         if (handleRequests()) setChanged();
         return currentTickRate;
     }
@@ -172,27 +170,23 @@ public class RequesterBlockEntity extends AENetworkedBlockEntity implements Requ
         storageManager.addDrops(drops);
     }
 
-    private void deserializeStatus(CompoundTag tag) {
+    private void deserializeStatus(ValueInput data) {
         for (var i = 0; i < requestStatus.length; i++) {
-            if (tag.contains(String.valueOf(i))) {
-                var stateTag = tag.getCompound(String.valueOf(i));
-                var link = StorageHelper.loadCraftingLink(stateTag, this);
+            var child = data.child(String.valueOf(i));
+            if (child.isPresent()) {
+                var link = StorageHelper.loadCraftingLink(child.orElseThrow(), this);
                 requestStatus[i] = new LinkState(link);
             }
         }
     }
 
-    private CompoundTag serializeStatus() {
-        var tag = new CompoundTag();
+    private void serializeStatus(ValueOutput data) {
         for (var i = 0; i < requestStatus.length; i++) {
             var state = requestStatus[i];
             if (state instanceof LinkState cls) {
-                var stateTag = new CompoundTag();
-                cls.link().writeToNBT(stateTag);
-                tag.put(String.valueOf(i), stateTag);
+                cls.link().writeToNBT(data.child(String.valueOf(i)));
             }
         }
-        return tag;
     }
 
     private boolean handleRequests() {

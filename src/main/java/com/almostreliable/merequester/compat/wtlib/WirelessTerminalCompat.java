@@ -3,24 +3,24 @@ package com.almostreliable.merequester.compat.wtlib;
 import com.almostreliable.merequester.Utils;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
-import net.neoforged.fml.loading.LoadingModList;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import appeng.api.features.GridLinkables;
-import appeng.init.client.InitScreens;
+import appeng.client.InitScreens;
 import appeng.items.tools.powered.WirelessTerminalItem;
 import appeng.items.tools.powered.powersink.PoweredItemCapabilities;
 import de.mari_023.ae2wtlib.api.gui.Icon;
 import de.mari_023.ae2wtlib.api.registration.AddTerminalEvent;
-
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -63,42 +63,46 @@ public final class WirelessTerminalCompat {
     }
 
     private boolean isLoaded() {
-        return LoadingModList.get().getModFileById("ae2wtlib") != null;
+        return ModList.get().getModFileById("ae2wtlib") != null;
     }
 
     private WirelessTerminalCompat() {}
 
     @SuppressWarnings("StaticVariableUsedBeforeInitialization")
-    static final class Guard {
+    private static final class Guard {
 
         @Nullable
-        static ReqWirelessTerminalItem WIRELESS_REQUESTER_TERMINAL;
-        @Nullable
-        static DeferredHolder<MenuType<?>, MenuType<ReqWirelessTerminalMenu>> WIRELESS_REQUESTER_TERMINAL_MENU;
+        private static ReqWirelessTerminalItem WIRELESS_REQUESTER_TERMINAL;
 
         private static void init(DeferredRegister<MenuType<?>> menuRegistry) {
-            WIRELESS_REQUESTER_TERMINAL_MENU = menuRegistry.register(
-                TERMINAL_ID,
-                () -> ReqWirelessTerminalMenu.TYPE
-            );
+            menuRegistry.register(TERMINAL_ID, () -> ReqWirelessTerminalMenu.TYPE);
         }
 
-        public static void registerWirelessTerminal(Registry<Item> registry) {
-            WIRELESS_REQUESTER_TERMINAL = new ReqWirelessTerminalItem();
-            Registry.register(registry, Utils.getRL(TERMINAL_ID), WIRELESS_REQUESTER_TERMINAL);
+        private static void registerWirelessTerminal(Registry<Item> registry) {
+            var terminalId = Utils.getRL(TERMINAL_ID);
+            var terminalKey = ResourceKey.create(Registries.ITEM, terminalId);
+            var terminalItem = new ReqWirelessTerminalItem(new Item.Properties().setId(terminalKey));
+
+            Registry.register(registry, terminalId, terminalItem);
             AddTerminalEvent.register(event -> event.builder(
-                    "requester", ReqWirelessTerminalMenuHost::new, ReqWirelessTerminalMenu.TYPE, WIRELESS_REQUESTER_TERMINAL,
-                    Icon.PATTERN_ACCESS
+                    "requester",
+                    ReqWirelessTerminalMenuHost::new,
+                    ReqWirelessTerminalMenu.TYPE,
+                    terminalItem,
+                    Icon.PATTERN_ACCESS // TODO: replace this with a custom icon
                 )
                 .addTerminal());
+
+            WIRELESS_REQUESTER_TERMINAL = terminalItem;
         }
 
         private static void registerCapabilities(RegisterCapabilitiesEvent event) {
             assert WIRELESS_REQUESTER_TERMINAL != null;
+
             GridLinkables.register(WIRELESS_REQUESTER_TERMINAL, WirelessTerminalItem.LINKABLE_HANDLER);
             event.registerItem(
-                Capabilities.EnergyStorage.ITEM,
-                (stack, context) -> new PoweredItemCapabilities(stack, WIRELESS_REQUESTER_TERMINAL),
+                Capabilities.Energy.ITEM,
+                (_, context) -> new PoweredItemCapabilities(context, WIRELESS_REQUESTER_TERMINAL, WIRELESS_REQUESTER_TERMINAL),
                 WIRELESS_REQUESTER_TERMINAL
             );
         }
@@ -107,8 +111,6 @@ public final class WirelessTerminalCompat {
             assert WIRELESS_REQUESTER_TERMINAL != null;
             return List.of(WIRELESS_REQUESTER_TERMINAL);
         }
-
-        private Guard() {}
     }
 
     private static final class GuardClient {

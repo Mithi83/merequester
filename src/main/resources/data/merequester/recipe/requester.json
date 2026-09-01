@@ -1,29 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "pattern": [
     "eie",
     "apa",
     "csc"
   ],
   "key": {
-    "e": {
-      "tag": "c:ingots/iron"
-    },
-    "i": {
-      "tag": "ae2:interface"
-    },
-    "a": {
-      "item": "ae2:crafting_accelerator"
-    },
-    "p": {
-      "item": "ae2:engineering_processor"
-    },
-    "c": {
-      "tag": "c:ingots/copper"
-    },
-    "s": {
-      "item": "minecraft:amethyst_shard"
-    }
+    "e": "#c:ingots/iron",
+    "i": "#ae2:interface",
+    "a": "ae2:crafting_accelerator",
+    "p": "ae2:engineering_processor",
+    "c": "#c:ingots/copper",
+    "s": "minecraft:amethyst_shard"
   },
   "result": {
     "id": "merequester:requester"

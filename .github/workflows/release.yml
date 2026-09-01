@@ -38,7 +38,7 @@ jobs:
     secrets: inherit
     with:
       java-distribution: "microsoft"
-      java-version: "21"
+      java-version: "25"
       mod_name: "MERequester"
       curseforge_id: "688367"
       modrinth_id: "E6BFl96N"

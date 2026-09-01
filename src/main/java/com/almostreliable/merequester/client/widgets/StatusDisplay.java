@@ -4,10 +4,11 @@ import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.requester.status.RequestStatus;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 
@@ -38,12 +39,12 @@ public class StatusDisplay extends AbstractWidget implements ITooltip {
 
     @SuppressWarnings("DataFlowIssue")
     @Override
-    public void renderWidget(GuiGraphics guiGraphics, int mX, int mY, float partialTick) {
+    public void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mX, int mY, float partialTick) {
         guiGraphics.fill(getX(), getY(), getX() + width, getY() + height, 0xFF << 3 * 8 | getStatusColor().getColor());
     }
 
     @Override
-    protected boolean isValidClickButton(int button) {
+    protected boolean isValidClickButton(MouseButtonInfo buttonInfo) {
         return false;
     }
 
@@ -62,7 +63,7 @@ public class StatusDisplay extends AbstractWidget implements ITooltip {
     public List<Component> getTooltipMessage() {
         List<Component> tooltip = new ArrayList<>();
         tooltip.add(Utils.translate("tooltip", "status"));
-        if (Screen.hasShiftDown()) {
+        if (Minecraft.getInstance().hasShiftDown()) {
             tooltip.addAll(List.of(
                 Component.literal(" "),
                 Utils.translate("tooltip", RequestStatus.IDLE.toString().toLowerCase()).withStyle(getStatusColor(RequestStatus.IDLE)),

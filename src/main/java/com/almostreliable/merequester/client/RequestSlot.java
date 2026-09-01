@@ -9,11 +9,11 @@ import com.almostreliable.merequester.network.DragAndDropPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import appeng.menu.slot.FakeSlot;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +27,7 @@ public class RequestSlot extends FakeSlot {
     private boolean isLocked;
 
     public RequestSlot(RequestDisplay host, RequesterReference requesterReference, int slot, int x, int y) {
-        super(requesterReference.getRequestManager(), slot);
+        super(requesterReference.getRequestManager().getConfigInventory(), slot);
         this.host = host;
         this.requesterReference = requesterReference;
         this.slot = slot;
@@ -82,6 +82,11 @@ public class RequestSlot extends FakeSlot {
 
     @Override
     public void setFilterTo(ItemStack itemStack) {
-        PacketDistributor.sendToServer(new DragAndDropPacket(getRequesterReference().getRequesterId(), getSlot(), itemStack));
+        ClientPacketDistributor.sendToServer(new DragAndDropPacket(getRequesterReference().getRequesterId(), getSlot(), itemStack));
+    }
+
+    @Override
+    public boolean canSetFilterTo(ItemStack stack) {
+        return !isLocked && super.canSetFilterTo(stack);
     }
 }

@@ -1,18 +1,22 @@
 plugins {
-    id("net.neoforged.moddev") version "2.0.141"
-    id("com.almostreliable.almostgradle") version "1.5.2"
+    id("net.neoforged.moddev") version "2.0.143"
+    id("com.almostreliable.almostgradle") version "2.3.2"
 }
 
 almostgradle.setup {
     withSourcesJar = false
+    downloadSources = true
+    downloadJavadoc = true
 }
 
 neoForge {
     runs {
         configureEach {
-            systemProperties = mapOf(
-                "guideme.ae2.guide.sources" to file("guidebook").absolutePath,
-                "guideme.ae2.guide.sourcesNamespace" to almostgradle.modId,
+            systemProperties.putAll(
+                mapOf(
+                    "guideme.ae2.guide.sources" to file("guidebook").absolutePath,
+                    "guideme.ae2.guide.sourcesNamespace" to almostgradle.modId,
+                )
             )
         }
 
@@ -26,7 +30,6 @@ neoForge {
 repositories {
     mavenCentral()
     maven("https://modmaven.dev")
-    mavenLocal()
 }
 
 dependencies {

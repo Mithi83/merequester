@@ -6,12 +6,8 @@
     }
   ],
   "type": "ae2wtlib:combine",
-  "terminalA": {
-    "item": "merequester:wireless_requester_terminal"
-  },
-  "terminalB": {
-    "item": "ae2:wireless_crafting_terminal"
-  },
+  "terminalA": "merequester:wireless_requester_terminal",
+  "terminalB": "ae2:wireless_crafting_terminal",
   "terminalAName": "requester",
   "terminalBName": "crafting"
 }

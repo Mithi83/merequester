@@ -1,7 +1,7 @@
 package com.almostreliable.merequester;
 
 import com.almostreliable.merequester.core.Config;
-import com.almostreliable.merequester.core.Registration;
+import com.almostreliable.merequester.core.ModRegistration;
 import com.almostreliable.merequester.network.PacketHandler;
 
 import net.neoforged.bus.api.IEventBus;
@@ -19,7 +19,7 @@ public final class MERequester {
     public static final String TERMINAL_ID = "requester_terminal";
 
     public MERequester(IEventBus modEventBus, ModContainer modContainer) {
-        Registration.init(modEventBus);
+        ModRegistration.init(modEventBus);
         PacketHandler.init(modEventBus);
         Config.init(modContainer);
     }

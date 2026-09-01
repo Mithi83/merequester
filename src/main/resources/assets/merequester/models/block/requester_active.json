@@ -1,6 +1,6 @@
 {
   "parent": "merequester:block/requester",
   "textures": {
-    "face": "merequester:block/requester_active"
+    "front": "merequester:block/requester_active"
   }
 }

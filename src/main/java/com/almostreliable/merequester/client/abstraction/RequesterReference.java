@@ -4,15 +4,12 @@ import com.almostreliable.merequester.requester.RequestManager;
 import com.almostreliable.merequester.requester.abstraction.RequestHost;
 
 import net.minecraft.network.chat.Component;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * yoinked from AE2's legacy {@code PatternProviderRecord}
  * <p>
  * Note: this class has a natural ordering that is inconsistent with equals.
  */
-@OnlyIn(Dist.CLIENT)
 public class RequesterReference implements RequestHost, Comparable<RequesterReference> {
 
     private final long requesterId;

@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench by Almost Reliable",
 	"parent": "block/orientable",
 	"textures": {
-		"face": "merequester:block/requester",
+		"front": "merequester:block/requester",
 		"top": "ae2:block/generics/top",
 		"back": "ae2:block/generics/back",
 		"bottom": "ae2:block/generics/bottom",
@@ -26,39 +26,39 @@
 			"from": [0, 0, 0],
 			"to": [16, 4, 1],
 			"faces": {
-				"north": {"uv": [0, 12, 16, 16], "texture": "#face"},
-				"up": {"uv": [16, 12, 0, 13], "texture": "#face"}
+				"north": {"uv": [0, 12, 16, 16], "texture": "#front"},
+				"up": {"uv": [16, 12, 0, 13], "texture": "#front"}
 			}
 		},
 		{
 			"from": [3, 3, 1],
 			"to": [13, 13, 2],
 			"faces": {
-				"north": {"uv": [3, 3, 13, 13], "texture": "#face"}
+				"north": {"uv": [3, 3, 13, 13], "texture": "#front"}
 			}
 		},
 		{
 			"from": [0, 4, 0],
 			"to": [4, 16, 1],
 			"faces": {
-				"north": {"uv": [12, 0, 16, 12], "texture": "#face"},
-				"east": {"uv": [12, 0, 13, 12], "texture": "#face"}
+				"north": {"uv": [12, 0, 16, 12], "texture": "#front"},
+				"east": {"uv": [12, 0, 13, 12], "texture": "#front"}
 			}
 		},
 		{
 			"from": [12, 4, 0],
 			"to": [16, 16, 1],
 			"faces": {
-				"north": {"uv": [0, 0, 4, 12], "texture": "#face"},
-				"west": {"uv": [3, 0, 4, 12], "texture": "#face"}
+				"north": {"uv": [0, 0, 4, 12], "texture": "#front"},
+				"west": {"uv": [3, 0, 4, 12], "texture": "#front"}
 			}
 		},
 		{
 			"from": [4, 12, 0],
 			"to": [12, 16, 1],
 			"faces": {
-				"north": {"uv": [4, 0, 12, 4], "texture": "#face"},
-				"down": {"uv": [12, 3, 4, 4], "texture": "#face"}
+				"north": {"uv": [4, 0, 12, 4], "texture": "#front"},
+				"down": {"uv": [12, 3, 4, 4], "texture": "#front"}
 			}
 		}
 	],

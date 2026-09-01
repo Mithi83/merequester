@@ -4,7 +4,6 @@ import com.almostreliable.merequester.MERequester;
 import com.almostreliable.merequester.network.RequesterSyncPacket;
 import com.almostreliable.merequester.requester.RequesterBlockEntity;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
@@ -17,12 +16,12 @@ import appeng.api.stacks.GenericStack;
 import appeng.helpers.InventoryAction;
 import appeng.menu.AEBaseMenu;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractRequesterMenu extends AEBaseMenu {
-
-    public static final String SORT_BY_ID = "sort_by";
-    public static final String UNIQUE_NAME_ID = "unique_name";
 
     // used to give requesters unique IDs
     private long idSerial = Long.MIN_VALUE;
@@ -43,7 +42,7 @@ public abstract class AbstractRequesterMenu extends AEBaseMenu {
             return;
         }
 
-        var requestSlot = requestTracker.getServer().getSlotInv(slot);
+        var requestSlot = requestTracker.getServer().getConfigInventory().getSlotInv(slot);
         var requestStack = requestSlot.getStackInSlot(0);
         var carriedStack = getCarried();
 
@@ -111,49 +110,52 @@ public abstract class AbstractRequesterMenu extends AEBaseMenu {
         var server = requestTracker.getServer();
         var client = requestTracker.getClient();
 
-        // get the requests from the server
-        var tag = server.serializeNBT(getPlayer().registryAccess());
-        // store the information in the client tracker to
-        // check for differences on partial updates later
-        // tag serialization is used to avoid references to the original data
-        client.deserializeNBT(getPlayer().registryAccess(), tag);
-
-        // send relevant data to the client
-        tag.putString(UNIQUE_NAME_ID, requestTracker.getName());
-        tag.putLong(SORT_BY_ID, requestTracker.getSortBy());
-        if (getPlayer() instanceof ServerPlayer serverPlayer) {
-            PacketDistributor.sendToPlayer(serverPlayer, RequesterSyncPacket.createInventory(requestTracker.getId(), tag));
+        var updates = new ArrayList<RequesterSyncPacket.IndexedRequest>(server.size());
+        for (var i = 0; i < server.size(); i++) {
+            var component = server.get(i).toComponent();
+            client.get(i).fromComponent(component);
+            updates.add(new RequesterSyncPacket.IndexedRequest(i, component));
         }
+
+        sendInventorySync(requestTracker, updates);
     }
 
     protected void syncRequestTrackerPartial(RequestTracker requestTracker) {
         var server = requestTracker.getServer();
         var client = requestTracker.getClient();
 
-        CompoundTag tag = null;
-        // iterate through the server data and check for differences
+        List<RequesterSyncPacket.IndexedRequest> updates = null;
         for (var i = 0; i < server.size(); i++) {
             var serverRequest = server.get(i);
             var clientRequest = client.get(i);
 
             if (serverRequest.isDifferent(clientRequest)) {
-                // write initial data as soon as something is different
-                if (tag == null) {
-                    tag = new CompoundTag();
-                    tag.putString(UNIQUE_NAME_ID, requestTracker.getName());
-                    tag.putLong(SORT_BY_ID, requestTracker.getSortBy());
+                if (updates == null) {
+                    updates = new ArrayList<>();
                 }
 
-                var serverData = serverRequest.serializeNBT(getPlayer().registryAccess());
-                tag.put(String.valueOf(i), serverData);
-                // update the client information for future difference checks
-                clientRequest.deserializeNBT(getPlayer().registryAccess(), serverData);
+                var component = serverRequest.toComponent();
+                clientRequest.fromComponent(component);
+                updates.add(new RequesterSyncPacket.IndexedRequest(i, component));
             }
         }
 
-        // only send an update if something changed
-        if (tag != null && getPlayer() instanceof ServerPlayer serverPlayer) {
-            PacketDistributor.sendToPlayer(serverPlayer, RequesterSyncPacket.createInventory(requestTracker.getId(), tag));
+        if (updates != null) {
+            sendInventorySync(requestTracker, updates);
+        }
+    }
+
+    private void sendInventorySync(RequestTracker requestTracker, List<RequesterSyncPacket.IndexedRequest> updates) {
+        if (getPlayer() instanceof ServerPlayer serverPlayer) {
+            PacketDistributor.sendToPlayer(
+                serverPlayer,
+                RequesterSyncPacket.createInventory(
+                    requestTracker.getId(),
+                    requestTracker.getName(),
+                    requestTracker.getSortBy(),
+                    updates
+                )
+            );
         }
     }
 

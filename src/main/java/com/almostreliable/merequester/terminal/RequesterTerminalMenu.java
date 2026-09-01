@@ -20,7 +20,7 @@ import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.implementations.PatternAccessTermMenu;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.IdentityHashMap;
@@ -67,7 +67,7 @@ public class RequesterTerminalMenu extends AbstractRequesterMenu {
         for (var requester : requesters) {
             var targetSlot = requester.getRequestManager().firstAvailableIndex();
             if (targetSlot == -1) continue;
-            byRequester.get(requester).getServer().insertItem(targetSlot, stack, false);
+            byRequester.get(requester).getServer().getConfigInventory().insertItem(targetSlot, stack, false);
             break;
         }
 

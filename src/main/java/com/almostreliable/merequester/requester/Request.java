@@ -3,27 +3,26 @@ package com.almostreliable.merequester.requester;
 import com.almostreliable.merequester.requester.abstraction.RequestHost;
 import com.almostreliable.merequester.requester.status.RequestStatus;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
 
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public final class Request implements INBTSerializable<CompoundTag> {
+public final class Request implements ValueIOSerializable {
 
     // serialization IDs
     private static final String STATE_ID = "state";
@@ -52,14 +51,12 @@ public final class Request implements INBTSerializable<CompoundTag> {
     }
 
     @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider registries) {
-        var tag = new CompoundTag();
-        tag.putBoolean(STATE_ID, state);
-        if (key != null) tag.put(KEY_ID, key.toTagGeneric(registries));
-        tag.putLong(AMOUNT_ID, amount);
-        tag.putLong(BATCH_ID, batch);
-        tag.putInt(STATUS_ID, clientStatus.ordinal());
-        return tag;
+    public void serialize(ValueOutput data) {
+        data.putBoolean(STATE_ID, state);
+        if (key != null) key.toTagGeneric(data.child(KEY_ID));
+        data.putLong(AMOUNT_ID, amount);
+        data.putLong(BATCH_ID, batch);
+        data.putInt(STATUS_ID, clientStatus.ordinal());
     }
 
     public Component toComponent() {
@@ -73,12 +70,17 @@ public final class Request implements INBTSerializable<CompoundTag> {
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider registries, CompoundTag tag) {
-        state = tag.getBoolean(STATE_ID);
-        key = tag.contains(KEY_ID) ? AEKey.fromTagGeneric(registries, tag.getCompound(KEY_ID)) : null;
-        amount = tag.getLong(AMOUNT_ID);
-        batch = tag.getLong(BATCH_ID);
-        clientStatus = RequestStatus.values()[tag.getInt(STATUS_ID)];
+    public void deserialize(ValueInput data) {
+        state = data.getBooleanOr(STATE_ID, state);
+        var childKey = data.child(KEY_ID);
+        if (childKey.isPresent()) {
+            key = AEKey.fromTagGeneric(childKey.orElseThrow());
+        } else {
+            key = null;
+        }
+        amount = data.getLongOr(AMOUNT_ID, amount);
+        batch = data.getLongOr(BATCH_ID, batch);
+        clientStatus = RequestStatus.values()[data.getIntOr(STATUS_ID, clientStatus.ordinal())];
     }
 
     public void fromComponent(Component request) {
@@ -151,11 +153,6 @@ public final class Request implements INBTSerializable<CompoundTag> {
         keyChanged();
     }
 
-    void setClientKey(AEKey key, long amount) {
-        this.key = key;
-        this.amount = amount;
-    }
-
     private void keyChanged() {
         if (host != null) host.requestChanged(index);
     }
@@ -189,7 +186,6 @@ public final class Request implements INBTSerializable<CompoundTag> {
         return batch;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public RequestHost getRequesterReference() {
         assert host != null;
         return host;

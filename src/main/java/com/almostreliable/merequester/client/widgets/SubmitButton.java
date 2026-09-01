@@ -2,7 +2,7 @@ package com.almostreliable.merequester.client.widgets;
 
 import com.almostreliable.merequester.Utils;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 
@@ -27,7 +27,7 @@ public class SubmitButton extends AECheckbox implements ITooltip {
     }
 
     @Override
-    public void renderWidget(GuiGraphics guiGraphics, int mX, int mY, float partial) {
+    public void extractContents(GuiGraphicsExtractor guiGraphics, int mX, int mY, float partial) {
         Blitter icon = isFocused() || isMouseOver(mX, mY) ? FOCUSED : UNFOCUSED;
         if (!isMouseOver(mX, mY)) {
             setFocused(false);

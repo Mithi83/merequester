@@ -5,7 +5,7 @@ import com.almostreliable.merequester.mixin.accessors.EditBoxMixin;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 
 import appeng.api.stacks.AEFluidKey;
@@ -18,7 +18,7 @@ import appeng.client.gui.widgets.NumberEntryWidget;
 import appeng.core.localization.GuiText;
 import com.mojang.blaze3d.platform.InputConstants;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -41,8 +41,9 @@ public class NumberField extends ConfirmableTextField {
     private static final int WIDTH = 52;
     private static final int HEIGHT = 12;
 
-    private static final int TEXT_COLOR = 0xFF_FFFF;
-    private static final int ERROR_COLOR = 0xFF_0000;
+    private static final int TEXT_COLOR = 0xFFFF_FFFF;
+    private static final int ERROR_COLOR = 0xFFFF_0000;
+    private static final int B_COLOR = 0xFF54_5454;
 
     private static final int MIN_VALUE = 0;
 
@@ -75,10 +76,10 @@ public class NumberField extends ConfirmableTextField {
     }
 
     @Override
-    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partial) {
-        super.renderWidget(guiGraphics, mouseX, mouseY, partial);
+    public void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partial) {
+        super.extractWidgetRenderState(guiGraphics, mouseX, mouseY, partial);
         if (!isFluid) return;
-        guiGraphics.drawString(Minecraft.getInstance().font, "B", getX() + WIDTH - PADDING, getY(), 0x54_5454, false);
+        guiGraphics.text(Minecraft.getInstance().font, "B", getX() + WIDTH - PADDING, getY(), B_COLOR, false);
     }
 
     private void validate() {

@@ -3,49 +3,33 @@ package com.almostreliable.merequester.requester;
 import com.almostreliable.merequester.core.Config;
 import com.almostreliable.merequester.requester.abstraction.RequestHost;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
-import appeng.api.behaviors.GenericInternalInventory;
-import appeng.api.config.Actionable;
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
+
 import appeng.api.inventories.InternalInventory;
-import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
-import appeng.api.stacks.AEKeyType;
 import appeng.api.stacks.GenericStack;
-import appeng.api.storage.MEStorage;
-import appeng.helpers.externalstorage.GenericStackInv;
-import com.google.common.primitives.Ints;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Uses the same approach as {@link GenericStackInv} to track items and fluids.
- * <p>
- * Automatically provides a menu wrapper by implementing {@link InternalInventory}.
- */
-@SuppressWarnings("UnstableApiUsage")
-public class RequestManager implements MEStorage, GenericInternalInventory, InternalInventory, INBTSerializable<CompoundTag> {
+public class RequestManager implements ValueIOSerializable {
 
-    // if null, the inventory is client-side and doesn't need saving
-    @Nullable
-    private final RequestHost host;
     private final Request[] requests;
     private final int size;
+    private final RequesterConfigInventory configInventory;
 
     public RequestManager(@Nullable RequestHost host) {
-        this.host = host;
         this.size = Config.COMMON.requests.get();
-        requests = new Request[size];
+        this.requests = new Request[size];
         for (var i = 0; i < requests.length; i++) {
             requests[i] = new Request(host, i);
         }
+        this.configInventory = new RequesterConfigInventory(this);
     }
 
     public RequestManager() {
@@ -56,97 +40,43 @@ public class RequestManager implements MEStorage, GenericInternalInventory, Inte
         return requests[index];
     }
 
-    @Override
     public int size() {
         return size;
     }
 
     @Nullable
-    @Override
     public GenericStack getStack(int index) {
         return get(index).toGenericStack();
     }
 
     @Nullable
-    @Override
     public AEKey getKey(int index) {
         return get(index).getKey();
     }
 
-    @Override
     public long getAmount(int index) {
         return get(index).getAmount();
     }
 
-    @Override
-    public long getMaxAmount(AEKey key) {
-        return 1;
-    }
-
-    @Override
-    public long getCapacity(AEKeyType keyType) {
-        return 1;
-    }
-
-    @Override
-    public boolean canInsert() {
-        return true;
-    }
-
-    @Override
-    public boolean canExtract() {
-        return false;
-    }
-
-    @Override
-    public void setStack(int index, @Nullable GenericStack stack) {
+    void setStack(int index, @Nullable GenericStack stack) {
         get(index).updateKey(stack);
     }
 
-    @Override
-    public boolean isSupportedType(AEKeyType type) {
-        return true;
+    public InternalInventory getConfigInventory() {
+        return configInventory;
     }
 
     @Override
-    public boolean isAllowedIn(int slot, AEKey what) {
-        return true;
-    }
-
-    @Override
-    public long insert(int index, AEKey key, long amount, Actionable mode) {
-        if (mode == Actionable.SIMULATE) return amount;
-        if (host == null || host.isClientSide()) {
-            get(index).setClientKey(key, amount);
-        } else {
-            get(index).updateKey(new GenericStack(key, amount));
-        }
-        return amount;
-    }
-
-    @Override
-    public long extract(int index, AEKey key, long amount, Actionable mode) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void onChange() {
-        if (host != null) host.saveChanges();
-    }
-
-    @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider registries) {
-        var tag = new CompoundTag();
+    public void serialize(ValueOutput data) {
         for (var i = 0; i < size(); i++) {
-            tag.put(String.valueOf(i), get(i).serializeNBT(registries));
+            get(i).serialize(data.child(String.valueOf(i)));
         }
-        return tag;
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider registries, CompoundTag tag) {
+    public void deserialize(ValueInput data) {
         for (var i = 0; i < size(); i++) {
-            get(i).deserializeNBT(registries, tag.getCompound(String.valueOf(i)));
+            get(i).deserialize(data.childOrEmpty(String.valueOf(i)));
         }
     }
 
@@ -155,7 +85,7 @@ public class RequestManager implements MEStorage, GenericInternalInventory, Inte
             if (i < exportedRequests.size()) {
                 get(i).fromComponent(exportedRequests.get(i));
             } else {
-                setItemDirect(i, ItemStack.EMPTY);
+                setStack(i, null);
             }
         }
     }
@@ -174,70 +104,4 @@ public class RequestManager implements MEStorage, GenericInternalInventory, Inte
         }
         return -1;
     }
-
-    @Override
-    public Component getDescription() {
-        if (host == null) return net.minecraft.network.chat.Component.empty();
-        return host.getTerminalName();
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="Not required for requests.">
-    @Override
-    public void beginBatch() {}
-
-    @Override
-    public void endBatch() {}
-
-    @Override
-    public void endBatchSuppressed() {}
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="InternalInventory menu wrapper delegates.">
-    @Override
-    public boolean isItemValid(int slot, ItemStack stack) {
-        return stack.isEmpty() || convertToSuitableStack(stack) != null;
-    }
-
-    @Override
-    public int getSlotLimit(int slot) {
-        return 1;
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int slot) {
-        var genericStack = getStack(slot);
-        if (genericStack != null && genericStack.what() instanceof AEItemKey itemKey) {
-            return itemKey.toStack();
-        }
-        return GenericStack.wrapInItemStack(genericStack);
-    }
-
-    @Override
-    public void setItemDirect(int slot, ItemStack stack) {
-        if (stack.isEmpty()) {
-            setStack(slot, null);
-        } else {
-            var converted = convertToSuitableStack(stack);
-            if (converted != null) setStack(slot, converted);
-        }
-    }
-
-    @Nullable
-    private GenericStack convertToSuitableStack(ItemStack stack) {
-        if (stack.isEmpty()) return null;
-
-        var unwrappedStack = GenericStack.unwrapItemStack(stack);
-        ItemStack returnStack = stack;
-        if (unwrappedStack != null) {
-            if (unwrappedStack.what() instanceof AEItemKey itemKey) {
-                returnStack = itemKey.toStack(Math.max(1, Ints.saturatedCast(unwrappedStack.amount())));
-            } else {
-                return unwrappedStack;
-            }
-        }
-
-        var itemKey = AEItemKey.of(returnStack);
-        return itemKey != null ? new GenericStack(itemKey, returnStack.getCount()) : null;
-    }
-    // </editor-fold>
 }

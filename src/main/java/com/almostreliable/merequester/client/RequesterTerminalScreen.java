@@ -8,9 +8,11 @@ import com.almostreliable.merequester.core.Config;
 import com.almostreliable.merequester.requester.Request;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 
+import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 import appeng.api.config.Settings;
@@ -23,7 +25,7 @@ import appeng.core.AEConfig;
 import appeng.core.localization.GuiText;
 import com.google.common.collect.HashMultimap;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +38,7 @@ import java.util.WeakHashMap;
 
 public class RequesterTerminalScreen<T extends RequesterTerminalMenu> extends AbstractRequesterScreen<T> {
 
-    private static final ResourceLocation TEXTURE = Utils.getRL(String.format("textures/gui/%s.png", MERequester.TERMINAL_ID));
+    private static final Identifier TEXTURE = Utils.getRL(String.format("textures/gui/%s.png", MERequester.TERMINAL_ID));
     private static final Rect2i FOOTER_BBOX = new Rect2i(0, 133, GUI_WIDTH, GUI_FOOTER_HEIGHT + 2);
 
     private final HashMap<Long, RequesterReference> byId = new HashMap<>();
@@ -63,16 +65,16 @@ public class RequesterTerminalScreen<T extends RequesterTerminalMenu> extends Ab
     }
 
     @Override
-    public boolean mouseClicked(double mX, double mY, int button) {
-        if (button == 1 && searchField.isMouseOver(mX, mY)) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (event.button() == 1 && searchField.isMouseOver(event.x(), event.y())) {
             searchField.setValue("");
         }
-        return super.mouseClicked(mX, mY, button);
+        return super.mouseClicked(event, doubleClick);
     }
 
     @Override
-    public boolean charTyped(char character, int key) {
-        return character == ' ' && searchField.getValue().isEmpty() || super.charTyped(character, key);
+    public boolean charTyped(CharacterEvent event) {
+        return event.codepointAsString().equals(" ") && searchField.getValue().isEmpty() || super.charTyped(event);
     }
 
     @Override

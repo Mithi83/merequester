@@ -5,20 +5,21 @@ import com.almostreliable.merequester.Utils;
 import com.almostreliable.merequester.client.RequestSlot;
 import com.almostreliable.merequester.client.widgets.RequestWidget;
 import com.almostreliable.merequester.mixin.accessors.WidgetContainerMixin;
+import com.almostreliable.merequester.network.RequesterSyncPacket;
 import com.almostreliable.merequester.requester.Request;
 import com.almostreliable.merequester.requester.abstraction.AbstractRequesterMenu;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.renderer.Rect2i;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import appeng.api.behaviors.ContainerItemStrategies;
 import appeng.api.behaviors.EmptyingAction;
@@ -35,7 +36,7 @@ import appeng.helpers.InventoryAction;
 import com.mojang.blaze3d.platform.InputConstants;
 
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     private static final Rect2i TEXT_BBOX = new Rect2i(0, 60, GUI_WIDTH, ROW_HEIGHT);
     private static final Rect2i REQUEST_BBOX = new Rect2i(0, 38, GUI_WIDTH, ROW_HEIGHT);
 
-    private final ResourceLocation texture;
+    private final Identifier texture;
 
     protected final ArrayList<Object> lines = new ArrayList<>();
     private final Scrollbar scrollbar;
@@ -76,7 +77,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
 
     @SuppressWarnings("AssignmentToSuperclassField")
     protected AbstractRequesterScreen(
-        M menu, Inventory playerInventory, Component name, ScreenStyle style, ResourceLocation texture
+        M menu, Inventory playerInventory, Component name, ScreenStyle style, Identifier texture
     ) {
         super(menu, playerInventory, name, style);
         this.texture = texture;
@@ -110,22 +111,18 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
         return Tooltips.getEmptyingTooltip(ButtonToolTips.SetAction, carried, emptyingAction);
     }
 
-    public void updateFromMenu(boolean clearData, long requesterId, CompoundTag data) {
+    public void updateFromMenu(boolean clearData, long requesterId, RequesterSyncPacket.Payload data) {
         if (clearData) {
             clear();
             refreshList();
             return;
         }
 
-        var name = data.getString(AbstractRequesterMenu.UNIQUE_NAME_ID);
-        var sortBy = data.getLong(AbstractRequesterMenu.SORT_BY_ID);
-        var requests = getById(requesterId, name, sortBy).getRequestManager();
-
-        for (var i = 0; i < requests.size(); i++) {
-            var requestIndex = String.valueOf(i);
-            if (data.contains(requestIndex)) {
-                requests.get(i).deserializeNBT(menu.getPlayer().registryAccess(), data.getCompound(requestIndex));
-            }
+        var requests = getById(requesterId, data.name(), data.sortBy()).getRequestManager();
+        for (var update : data.updates()) {
+            var index = update.index();
+            if (index < 0 || index >= requests.size()) continue;
+            requests.get(index).fromComponent(update.component());
         }
 
         if (refreshList) refreshList();
@@ -165,7 +162,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     }
 
     @Override
-    public void drawFG(GuiGraphics guiGraphics, int pX, int pY, int mX, int mY) {
+    public void drawFG(GuiGraphicsExtractor guiGraphics, int pX, int pY, int mX, int mY) {
         menu.slots.removeIf(RequestSlot.class::isInstance);
 
         int textColor = style.getColor(PaletteColor.DEFAULT_TEXT_COLOR).toARGB();
@@ -173,7 +170,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
         if (lines.isEmpty()) {
             var text = Utils.translate("gui", "no_requesters").getString();
             var textWidth = font.width(text);
-            guiGraphics.drawString(
+            guiGraphics.text(
                 font,
                 text,
                 (int) ((GUI_WIDTH - textWidth) / 2f - 10),
@@ -203,7 +200,7 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
                 if (rows > 1) text = String.format("%s (%s)", text, rows);
                 text = font.plainSubstrByWidth(text, TEXT_MAX_WIDTH, true);
 
-                guiGraphics.drawString(
+                guiGraphics.text(
                     font,
                     text,
                     GUI_PADDING_X + TEXT_MARGIN_X,
@@ -219,9 +216,9 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
     }
 
     @Override
-    protected void slotClicked(@Nullable Slot slot, int slotIndex, int mouseButton, ClickType clickType) {
+    protected void slotClicked(@Nullable Slot slot, int slotIndex, int mouseButton, ContainerInput containerInput) {
         if (!(slot instanceof RequestSlot requestSlot)) {
-            super.slotClicked(slot, slotIndex, mouseButton, clickType);
+            super.slotClicked(slot, slotIndex, mouseButton, containerInput);
             return;
         }
 
@@ -234,12 +231,12 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
                 requestSlot.getSlot(),
                 requestSlot.getRequesterReference().getRequesterId()
             );
-            PacketDistributor.sendToServer(packet);
+            ClientPacketDistributor.sendToServer(packet);
             return;
         }
 
         InventoryAction action = null;
-        switch (clickType) {
+        switch (containerInput) {
             case PICKUP -> action = mouseButton == 1 ? InventoryAction.SPLIT_OR_PLACE_SINGLE : InventoryAction.PICKUP_OR_SET_DOWN;
             case QUICK_MOVE -> action = mouseButton == 1 ? InventoryAction.PICKUP_SINGLE : InventoryAction.SHIFT_CLICK;
             case CLONE -> {
@@ -257,12 +254,12 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
                 requestSlot.getSlot(),
                 requestSlot.getRequesterReference().getRequesterId()
             );
-            PacketDistributor.sendToServer(packet);
+            ClientPacketDistributor.sendToServer(packet);
         }
     }
 
     @Override
-    public void drawBG(GuiGraphics guiGraphics, int pX, int pY, int mX, int mY, float partial) {
+    public void drawBG(GuiGraphicsExtractor guiGraphics, int pX, int pY, int mX, int mY, float partial) {
         blit(guiGraphics, pX, pY, HEADER_BBOX);
 
         int scrollLevel = scrollbar.getCurrentScroll();
@@ -296,8 +293,19 @@ public abstract class AbstractRequesterScreen<M extends AbstractRequesterMenu> e
 
     protected abstract RequesterReference getById(long requesterId, String name, long sortBy);
 
-    private void blit(GuiGraphics guiGraphics, int pX, int pY, Rect2i srcRect) {
-        guiGraphics.blit(texture, pX, pY, srcRect.getX(), srcRect.getY(), srcRect.getWidth(), srcRect.getHeight());
+    private void blit(GuiGraphicsExtractor guiGraphics, int pX, int pY, Rect2i srcRect) {
+        guiGraphics.blit(
+            RenderPipelines.GUI_TEXTURED,
+            texture,
+            pX,
+            pY,
+            srcRect.getX(),
+            srcRect.getY(),
+            srcRect.getWidth(),
+            srcRect.getHeight(),
+            256,
+            256
+        );
     }
 
     private RequestSlot createSlot(int index, Request request) {
