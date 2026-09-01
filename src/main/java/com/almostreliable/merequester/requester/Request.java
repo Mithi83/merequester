@@ -153,11 +153,6 @@ public final class Request implements ValueIOSerializable {
         keyChanged();
     }
 
-    void setClientKey(AEKey key, long amount) {
-        this.key = key;
-        this.amount = amount;
-    }
-
     private void keyChanged() {
         if (host != null) host.requestChanged(index);
     }

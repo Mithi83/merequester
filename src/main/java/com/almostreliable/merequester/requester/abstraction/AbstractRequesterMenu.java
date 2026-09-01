@@ -45,7 +45,7 @@ public abstract class AbstractRequesterMenu extends AEBaseMenu {
             return;
         }
 
-        var requestSlot = requestTracker.getServer().getSlotInv(slot);
+        var requestSlot = requestTracker.getServer().getConfigInventory().getSlotInv(slot);
         var requestStack = requestSlot.getStackInSlot(0);
         var carriedStack = getCarried();
 

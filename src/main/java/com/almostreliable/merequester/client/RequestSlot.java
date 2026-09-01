@@ -27,7 +27,7 @@ public class RequestSlot extends FakeSlot {
     private boolean isLocked;
 
     public RequestSlot(RequestDisplay host, RequesterReference requesterReference, int slot, int x, int y) {
-        super(requesterReference.getRequestManager(), slot);
+        super(requesterReference.getRequestManager().getConfigInventory(), slot);
         this.host = host;
         this.requesterReference = requesterReference;
         this.slot = slot;

@@ -46,7 +46,7 @@ public final class RequesterMenu extends AbstractRequesterMenu {
         assert requestTracker != null;
         var firstAvailable = requestTracker.getServer().firstAvailableIndex();
         if (firstAvailable != -1) {
-            requestTracker.getServer().insertItem(firstAvailable, stack, false);
+            requestTracker.getServer().getConfigInventory().insertItem(firstAvailable, stack, false);
         }
         return 0;
     }

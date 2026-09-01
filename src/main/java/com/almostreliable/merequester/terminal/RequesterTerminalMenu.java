@@ -67,7 +67,7 @@ public class RequesterTerminalMenu extends AbstractRequesterMenu {
         for (var requester : requesters) {
             var targetSlot = requester.getRequestManager().firstAvailableIndex();
             if (targetSlot == -1) continue;
-            byRequester.get(requester).getServer().insertItem(targetSlot, stack, false);
+            byRequester.get(requester).getServer().getConfigInventory().insertItem(targetSlot, stack, false);
             break;
         }
 
