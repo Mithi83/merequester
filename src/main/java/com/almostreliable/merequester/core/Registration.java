@@ -6,6 +6,7 @@ import com.almostreliable.merequester.compat.wtlib.WirelessTerminalCompat;
 import com.almostreliable.merequester.requester.Request;
 import com.almostreliable.merequester.requester.RequesterBlock;
 import com.almostreliable.merequester.requester.RequesterBlockEntity;
+import com.almostreliable.merequester.requester.RequesterBlockItem;
 import com.almostreliable.merequester.requester.RequesterMenu;
 import com.almostreliable.merequester.terminal.RequesterTerminalMenu;
 import com.almostreliable.merequester.terminal.RequesterTerminalPart;
@@ -16,7 +17,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
@@ -61,10 +61,10 @@ public final class Registration {
         REQUESTER_ID,
         RequesterBlock::new
     );
-    public static final DeferredItem<BlockItem> REQUESTER_ITEM = ITEMS.registerSimpleBlockItem(
+    public static final DeferredItem<RequesterBlockItem> REQUESTER_ITEM = ITEMS.registerItem(
         REQUESTER_ID,
-        REQUESTER_BLOCK,
-        () -> new Item.Properties()
+        properties -> new RequesterBlockItem(REQUESTER_BLOCK.get(), properties),
+        Item.Properties::useBlockDescriptionPrefix
     );
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RequesterBlockEntity>> REQUESTER_ENTITY
         = BLOCK_ENTITIES.register(

@@ -1,17 +1,8 @@
 package com.almostreliable.merequester.requester;
 
-import com.almostreliable.merequester.MERequester;
-import com.almostreliable.merequester.Utils;
-
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,8 +15,6 @@ import appeng.block.AEBaseEntityBlock;
 import appeng.menu.MenuOpener;
 import appeng.menu.locator.MenuLocators;
 import appeng.util.InteractionUtil;
-
-import java.util.List;
 
 public class RequesterBlock extends AEBaseEntityBlock<RequesterBlockEntity> {
 
@@ -63,16 +52,4 @@ public class RequesterBlock extends AEBaseEntityBlock<RequesterBlockEntity> {
     public IOrientationStrategy getOrientationStrategy() {
         return ORIENTATION_STRATEGY;
     }
-
-    /* TODO 26.1
-    @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag tooltipFlag) {
-        if (Minecraft.getInstance().hasShiftDown()) {
-            tooltip.add(Component.literal(" "));
-            tooltip.add(Utils.translate("tooltip", String.format("%s_desc", MERequester.REQUESTER_ID)).withStyle(ChatFormatting.AQUA));
-        } else {
-            Utils.addShiftInfoTooltip(tooltip);
-        }
-    }
-    */
 }
