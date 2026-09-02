@@ -73,6 +73,8 @@ public final class WirelessTerminalCompat {
 
         @Nullable
         private static ReqWirelessTerminalItem WIRELESS_REQUESTER_TERMINAL;
+        private static final Icon.Texture iconTexture = new Icon.Texture(Utils.getRL("textures/wtlib/icon.png"), 16, 16);
+        private static final Icon icon = new Icon(0, 0, 16, 16, iconTexture);
 
         private static void init(DeferredRegister<MenuType<?>> menuRegistry) {
             menuRegistry.register(TERMINAL_ID, () -> ReqWirelessTerminalMenu.TYPE);
@@ -89,7 +91,7 @@ public final class WirelessTerminalCompat {
                     ReqWirelessTerminalMenuHost::new,
                     ReqWirelessTerminalMenu.TYPE,
                     terminalItem,
-                    Icon.PATTERN_ACCESS // TODO: replace this with a custom icon
+                    icon
                 )
                 .addTerminal());
 
